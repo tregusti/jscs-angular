@@ -1,0 +1,41 @@
+{
+  "name": "jscs-angular",
+  "version": "0.0.1",
+  "description": "JSCS rules for AngularJS",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "./node_modules/.bin/mocha --reporter dot specs",
+    "jshint": "./node_modules/.bin/jshint --reporter ./tools/jshint-reporter.js .",
+    "jscs": "./node_modules/.bin/jscs .",
+    "lint": "npm run jshint && npm run jscs",
+    "travis": "npm run lint && npm run test"
+  },
+  "keywords": [
+    "jscs",
+    "jscs-plugin",
+    "angular",
+    "angularjs"
+  ],
+  "homepage": "https://github.com/tregusti/jscs-angular",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tregusti/jscs-angular"
+  },
+  "bugs": {
+    "url": "https://github.com/tregusti/jscs-angular/issues"
+  },
+  "author": "Glenn Jorde <glenn@tregusti.com>",
+  "licenses": [{
+    "type": "ISC",
+    "url": "https://github.com/tregusti/jscs-angular/raw/master/LICENSE"
+  }],
+  "peerDependencies": {
+    "jscs": "^1.5.9"
+  },
+  "devDependencies": {
+    "chai": "^1.9.1",
+    "colors": "^0.6.2",
+    "jshint": "^2.5.5",
+    "mocha": "^1.21.4"
+  }
+}
