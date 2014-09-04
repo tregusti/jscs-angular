@@ -1,24 +1,31 @@
 'use strict';
 
-module.exports = function() {};
-
-var validators = {};
+module.exports = function() {
+  this._validators = [];
+};
 
 module.exports.prototype.getOptionName = function() {
   return 'angular';
 };
 
 module.exports.prototype.configure = function(options) {
-  // assert(typeof options === 'object', 'jsDoc option requires object value');
+  var validators = this._validators;
 
-  var Ctor = require('./angular/requireAngularDependencyOrder');
-  validators.requireAngularDependencyOrder = new Ctor();
+  var rules = ['requireMatchingFilename', 'requireAngularDependencyOrder'];
 
-  if (validators.requireAngularDependencyOrder.configure) {
-    validators.requireAngularDependencyOrder.configure(options.requireAngularDependencyOrder);
-  }
+  rules.forEach(function(name) {
+    validators[name] = new (require('./angular/' + name))();
+
+    if (validators[name].configure) {
+      validators[name].configure(options[name]);
+    }
+  });
 };
 
 module.exports.prototype.check = function(file, errors) {
-  validators.requireAngularDependencyOrder.check(file, errors);
+  // Object.keys(validators).forEach(function (name) {
+  //   validators[name].check(file, errors);
+  // });
+  this._validators.requireAngularDependencyOrder.check(file, errors);
+  this._validators.requireMatchingFilename.check(file, errors);
 };
