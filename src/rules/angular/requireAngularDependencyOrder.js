@@ -1,6 +1,7 @@
 'use strict';
 
 var format = require('util').format;
+var spah = require('spahql');
 
 module.exports = function () {};
 
@@ -22,18 +23,23 @@ module.exports.prototype.error = function error(str, pos) {
 };
 
 function angularDefinitionStatus(node) {
-  var reAllowed = /^(controller|service|factory|directive|provider|config)$/;
-  if (node.type !== 'ExpressionStatement') { return false; }
-  if (node.expression.type !== 'CallExpression') { return false; }
-  if (node.expression.callee.type !== 'MemberExpression') { return false; }
-  if (node.expression.callee.property.type !== 'Identifier') { return false; }
-  if (!node.expression.callee.property.name.match(reAllowed)) { return false; }
-  if (node.expression.arguments.length !== 2) { return false; }
-  if (node.expression.arguments[1].type !== 'FunctionExpression') { return false; }
+  var data = spah.db(node);
+
+  if (!data.assert('/type=="ExpressionStatement"')) { return false; }
+
+  var expression = data.select('/expression');
+  if (!expression.assert('/type=="CallExpression"')) { return false; }
+
+  var allowed = '"controller", "service", "factory", "directive", "provider", "config"';
+  var query = '/callee[/type=="MemberExpression"]/property[/type=="Identifier"][/name }<{ {%s}]';
+  if (!expression.assert(format(query, allowed))) { return false; }
+
+  var params = expression.select('/arguments[/.size==2]/1[/type=="FunctionExpression"]/params');
+  if (!params.length) { return false; }
 
   return {
     valid: true,
-    params: node.expression.arguments[1].params
+    params: params.value()
   };
 }
 
