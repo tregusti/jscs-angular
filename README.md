@@ -35,6 +35,9 @@ To use plugin you should add it to your configuration file, e.g. `.jscsrc`:
 
 All options are placed within the `angular` option in your `jscs` configuration.
 
+* [`requireAngularDependencyOrder`](#requireangulardependencyorder)
+* [`requireMatchingFilename`](#requirematchingfilename)
+
 ### `requireAngularDependencyOrder`
 
 This rule requires that angular dependencies are specified either `first` or `last` in a list of
@@ -73,6 +76,31 @@ angular.module('app').controller(function (myService, $scope) {
 ```javascript
 angular.module('app').controller(function ($scope, myService) {
   // ...
+})
+```
+
+### `requireMatchingFilename`
+
+This rule requires that the filename without extension exactly matches the name defined in the file.
+It must have the value `true` or shall not be present.
+
+##### Valid example
+
+In a file named `assets/GoodController.js`:
+
+```javascript
+angular.module('app').controller('GoodController', function() {
+
+})
+```
+
+##### Invalid example
+
+In a file named `assets/BadController.js`:
+
+```javascript
+angular.module('app').controller('BadCtrl', function() {
+
 })
 ```
 
