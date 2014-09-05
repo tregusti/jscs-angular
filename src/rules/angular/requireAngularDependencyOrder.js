@@ -1,9 +1,10 @@
 'use strict';
 
 var assert = require('assert');
-var docLink = require('../../doc-linker');
 var format = require('util').format;
 var spah = require('spahql');
+
+var docLink = require('../../doc-linker');
 
 module.exports = function () {};
 

@@ -1,8 +1,11 @@
 'use strict';
 
+var assert = require('assert');
 var format = require('util').format;
 var spah = require('spahql');
 var path = require('path');
+
+var docLink = require('../../doc-linker');
 
 module.exports = function () {};
 
@@ -22,7 +25,17 @@ module.exports.prototype.check = function check(file, errors) {
     }
   });
 };
+
+module.exports.prototype.getOptionName = function() {
+  return 'requireMatchingFilename';
+};
+
 module.exports.prototype.configure = function configure(value) {
+  assert(
+    value === true,
+    format('Bad option value: %s. See documentation at %s', value, docLink(this.getOptionName()))
+  );
+
   this._value = value;
 };
 
