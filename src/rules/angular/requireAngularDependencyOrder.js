@@ -1,5 +1,7 @@
 'use strict';
 
+var assert = require('assert');
+var docLink = require('../../doc-linker');
 var format = require('util').format;
 var spah = require('spahql');
 
@@ -15,7 +17,16 @@ module.exports.prototype.check = function check(file, errors) {
     }
   });
 };
+
+module.exports.prototype.getOptionName = function() {
+  return 'requireAngularDependencyOrder';
+};
+
 module.exports.prototype.configure = function configure(position) {
+  assert(
+    position === 'first' || position === 'last',
+    format('Bad option value: %s. See documentation at %s', position, docLink(this.getOptionName()))
+  );
   this._position = position;
 };
 module.exports.prototype.error = function error(str, pos) {
