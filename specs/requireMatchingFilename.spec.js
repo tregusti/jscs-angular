@@ -10,7 +10,7 @@ describe('requireMatchingFilename', function () {
 
   beforeEach(function () {
     checker = new Checker();
-    checker.registerRule(new (require('../src/rules/angular.js'))());
+    checker.registerRule(new (require('../src/rules/delegator.js'))());
     configure({
       requireMatchingFilename: true
     });
