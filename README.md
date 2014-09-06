@@ -1,5 +1,6 @@
 # jscs-angular
 
+[![Version](http://img.shields.io/npm/v/jscs-angular.svg)](https://www.npmjs.org/package/jscs-angular)
 [![Build Status](https://travis-ci.org/tregusti/jscs-angular.svg?branch=master)](https://travis-ci.org/tregusti/jscs-angular)
 [![Dependency Status](https://david-dm.org/tregusti/jscs-angular.svg?theme=shields.io)](https://david-dm.org/tregusti/jscs-angular)
 [![devDependency Status](https://david-dm.org/tregusti/jscs-angular/dev-status.svg?theme=shields.io)](https://david-dm.org/tregusti/jscs-angular#info=devDependencies)
