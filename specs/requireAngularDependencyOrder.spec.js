@@ -111,6 +111,21 @@ describe('requireAngularDependencyOrder', function () {
     });
   });
 
+  context('bad option value', function () {
+    function fn() {
+      configure({
+        requireAngularDependencyOrder: 'wrong'
+      });
+    }
+    it('warns about a bad value', function () {
+      expect(fn).to.throw(/wrong/);
+    });
+    it('shows link to documentation', function () {
+      expect(fn).to.throw(/github.*#requireangulardependencyorder/i);
+    });
+  });
+
+
   function errorsForTemplate(template, vars) {
     var source = util.format.apply(null, [template].concat(vars));
     return checker.checkString(source).getErrorList();

@@ -22,6 +22,20 @@ describe('delegator', function () {
     expect(errors).to.be.empty;
   });
 
+  context('bad option value', function () {
+    function fn() {
+      checker.configure({
+        angular: true
+      });
+    }
+    it('warns about a bad value', function () {
+      expect(fn).to.throw(/must.*object/);
+    });
+    it('shows link to documentation', function () {
+      expect(fn).to.throw(/github.*#usage/i);
+    });
+  });
+
   function errorsFor(source, filename) {
     return checker.checkString(source, filename).getErrorList();
   }

@@ -1,26 +1,39 @@
 'use strict';
 
+var assert = require('assert');
 var format = require('util').format;
-var spah = require('spahql');
+var spah   = require('spahql');
 
-module.exports = function () {};
+var docLink = require('../../doc-linker');
 
-module.exports.prototype.check = function check(file, errors) {
-  var self = this;
-  self._errors = errors;
+// API
+
+exports.name      = 'requireAngularDependencyOrder';
+exports.check     = check;
+exports.configure = configure;
+
+// API functions
+
+function check(file, errors) {
   file.iterateNodesByType(['ExpressionStatement'], function(expression) {
     var status = angularDefinitionStatus(expression);
     if (status.valid) {
-      checkParams(self, status.params);
+      checkParams(status.params, errors);
     }
   });
-};
-module.exports.prototype.configure = function configure(position) {
-  this._position = position;
-};
-module.exports.prototype.error = function error(str, pos) {
-  this._errors.add(str, pos);
-};
+}
+
+function configure(option) {
+  assert(
+    option === 'first' || option === 'last',
+    format('Bad option value: %s. See documentation at %s', option, docLink(exports.name))
+  );
+  position = option;
+}
+
+// Internals
+
+var position;
 
 function angularDefinitionStatus(node) {
   var data = spah.db(node);
@@ -43,9 +56,9 @@ function angularDefinitionStatus(node) {
   };
 }
 
-function checkParams(instance, params) {
+function checkParams(params, errors) {
   var lastTrailingDependency = null;
-  if (instance._position === 'first') {
+  if (position === 'first') {
 
     params.forEach(function (param) {
       if (param.type !== 'Identifier') { return; }
@@ -61,10 +74,10 @@ function checkParams(instance, params) {
           param.name,
           lastTrailingDependency
         );
-        instance.error(message, param.loc.start);
+        errors.add(message, param.loc.start);
       }
     });
-  } else if (instance._position === 'last') {
+  } else if (position === 'last') {
     params.forEach(function (param) {
       if (param.type !== 'Identifier') { return; }
 
@@ -79,7 +92,7 @@ function checkParams(instance, params) {
           param.name,
           lastTrailingDependency
         );
-        instance.error(message, param.loc.start);
+        errors.add(message, param.loc.start);
       }
     });
   }
