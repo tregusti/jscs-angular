@@ -60,7 +60,7 @@ function checkParams(params, errors) {
   var lastTrailingDependency = null;
   if (position === 'first') {
 
-    params.forEach(function (param) {
+    params.forEach(function(param) {
       if (param.type !== 'Identifier') { return; }
 
       if (param.name.substr(0, 1) !== '$' && !lastTrailingDependency) {
@@ -78,7 +78,7 @@ function checkParams(params, errors) {
       }
     });
   } else if (position === 'last') {
-    params.forEach(function (param) {
+    params.forEach(function(param) {
       if (param.type !== 'Identifier') { return; }
 
       if (param.name.substr(0, 1) === '$' && !lastTrailingDependency) {

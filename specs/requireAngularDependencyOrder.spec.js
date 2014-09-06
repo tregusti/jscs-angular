@@ -5,10 +5,10 @@ var chai = require('chai');
 var expect = chai.expect;
 var util = require('util');
 
-describe('requireAngularDependencyOrder', function () {
+describe('requireAngularDependencyOrder', function() {
   var checker, errors;
 
-  beforeEach(function () {
+  beforeEach(function() {
     checker = new Checker();
     checker.registerRule(new (require('../src/rules/delegator.js'))());
   });
@@ -39,8 +39,8 @@ describe('requireAngularDependencyOrder', function () {
     template: 'angular.module("m").config("c", function(%s) {});'
   }];
 
-  context('when set to first', function () {
-    beforeEach(function () {
+  context('when set to first', function() {
+    beforeEach(function() {
       configure({
         requireAngularDependencyOrder: 'first'
       });
@@ -48,26 +48,26 @@ describe('requireAngularDependencyOrder', function () {
 
     configs.forEach(function(item) {
 
-      describe(item.title, function () {
+      describe(item.title, function() {
         var errorsForDependencies = errorsForTemplate.bind(null, item.template);
 
-        context('with bad order', function () {
-          beforeEach(function () {
+        context('with bad order', function() {
+          beforeEach(function() {
             errors = errorsForDependencies('dep, $dep');
           });
-          it('has one error', function () {
+          it('has one error', function() {
             expect(errors).to.have.length(1);
           });
-          it('explains the violation', function () {
+          it('explains the violation', function() {
             expect(errors[0]).to.have.property('message').that.match(/\$dep.*before.*dep/);
           });
         });
 
-        context('with correct order', function () {
-          beforeEach(function () {
+        context('with correct order', function() {
+          beforeEach(function() {
             errors = errorsForDependencies('$dep, dep');
           });
-          it('has no errors', function () {
+          it('has no errors', function() {
             expect(errors).to.be.empty;
           });
         });
@@ -75,8 +75,8 @@ describe('requireAngularDependencyOrder', function () {
     });
   });
 
-  context('when set to last', function () {
-    beforeEach(function () {
+  context('when set to last', function() {
+    beforeEach(function() {
       configure({
         requireAngularDependencyOrder: 'last'
       });
@@ -84,26 +84,26 @@ describe('requireAngularDependencyOrder', function () {
 
     configs.forEach(function(item) {
 
-      describe(item.title, function () {
+      describe(item.title, function() {
         var errorsForDependencies = errorsForTemplate.bind(null, item.template);
 
-        context('with bad order', function () {
-          beforeEach(function () {
+        context('with bad order', function() {
+          beforeEach(function() {
             errors = errorsForDependencies('$dep, dep');
           });
-          it('has one error', function () {
+          it('has one error', function() {
             expect(errors).to.have.length(1);
           });
-          it('explains the violation', function () {
+          it('explains the violation', function() {
             expect(errors[0]).to.have.property('message').that.match(/dep.*after.*\$dep/);
           });
         });
 
-        context('with correct order', function () {
-          beforeEach(function () {
+        context('with correct order', function() {
+          beforeEach(function() {
             errors = errorsForDependencies('dep, $dep');
           });
-          it('has no errors', function () {
+          it('has no errors', function() {
             expect(errors).to.be.empty;
           });
         });
@@ -111,16 +111,16 @@ describe('requireAngularDependencyOrder', function () {
     });
   });
 
-  context('bad option value', function () {
+  context('bad option value', function() {
     function fn() {
       configure({
         requireAngularDependencyOrder: 'wrong'
       });
     }
-    it('warns about a bad value', function () {
+    it('warns about a bad value', function() {
       expect(fn).to.throw(/wrong/);
     });
-    it('shows link to documentation', function () {
+    it('shows link to documentation', function() {
       expect(fn).to.throw(/github.*#requireangulardependencyorder/i);
     });
   });

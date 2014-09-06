@@ -48,7 +48,7 @@ dependencies for controllers, directives, factories, services, providers and con
 ##### Valid example
 
 ```javascript
-angular.module('app').controller('ValidController', function ($scope, myService) {
+angular.module('app').controller('ValidController', function($scope, myService) {
   // ...
 })
 ```
@@ -56,7 +56,7 @@ angular.module('app').controller('ValidController', function ($scope, myService)
 ##### Invalid example
 
 ```javascript
-angular.module('app').controller('InvalidController', function (myService, $scope) {
+angular.module('app').controller('InvalidController', function(myService, $scope) {
   // ...
 })
 ```
@@ -66,7 +66,7 @@ angular.module('app').controller('InvalidController', function (myService, $scop
 ##### Valid example
 
 ```javascript
-angular.module('app').controller('ValidController', function (myService, $scope) {
+angular.module('app').controller('ValidController', function(myService, $scope) {
   // ...
 })
 ```
@@ -74,7 +74,7 @@ angular.module('app').controller('ValidController', function (myService, $scope)
 ##### Invalid example
 
 ```javascript
-angular.module('app').controller('InvalidController', function ($scope, myService) {
+angular.module('app').controller('InvalidController', function($scope, myService) {
   // ...
 })
 ```

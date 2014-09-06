@@ -36,5 +36,11 @@
   "disallowTrailingComma": true,
   "requireLineFeedAtFileEnd": true,
   "requireDotNotation": true,
-  "requireSpaceAfterLineComment": true
+  "requireSpaceAfterLineComment": true,
+  "requireSpacesInFunctionExpression": {
+    "beforeOpeningCurlyBrace": true
+  },
+  "disallowSpacesInFunctionExpression": {
+    "beforeOpeningRoundBrace": true
+  }
 }

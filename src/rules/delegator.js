@@ -37,7 +37,7 @@ module.exports.prototype.configure = function(options) {
 module.exports.prototype.check = function(file, errors) {
   var validators = this._validators;
 
-  Object.keys(validators).forEach(function (name) {
+  Object.keys(validators).forEach(function(name) {
     validators[name].check(file, errors);
   });
 };
