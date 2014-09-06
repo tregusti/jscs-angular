@@ -2,14 +2,20 @@
 
 var assert = require('assert');
 var format = require('util').format;
-var spah = require('spahql');
-var path = require('path');
+var spah   = require('spahql');
+var path   = require('path');
 
 var docLink = require('../../doc-linker');
 
-module.exports = function () {};
+// API
 
-module.exports.prototype.check = function check(file, errors) {
+exports.name      = 'requireMatchingFilename';
+exports.check     = check;
+exports.configure = configure;
+
+// API functions
+
+function check(file, errors) {
   file.iterateNodesByType(['ExpressionStatement'], function(expression) {
     var status = angularDefinitionName(expression);
 
@@ -24,20 +30,16 @@ module.exports.prototype.check = function check(file, errors) {
       }
     }
   });
-};
+}
 
-module.exports.prototype.getOptionName = function() {
-  return 'requireMatchingFilename';
-};
-
-module.exports.prototype.configure = function configure(value) {
+function configure(value) {
   assert(
     value === true,
-    format('Bad option value: %s. See documentation at %s', value, docLink(this.getOptionName()))
+    format('Bad option value: %s. See documentation at %s', value, docLink(exports.name))
   );
+}
 
-  this._value = value;
-};
+// Internals
 
 function angularDefinitionName(node) {
   var data = spah.db(node);

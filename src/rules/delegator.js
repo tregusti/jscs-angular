@@ -25,7 +25,7 @@ module.exports.prototype.configure = function(options) {
 
   rules.forEach(function(name) {
     if (options.hasOwnProperty(name)) {
-      validators[name] = new (require('./angular/' + name))();
+      validators[name] = require('./angular/' + name);
 
       if (validators[name].configure) {
         validators[name].configure(options[name]);
