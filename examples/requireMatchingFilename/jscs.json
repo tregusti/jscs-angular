@@ -1,0 +1,11 @@
+{
+  "additionalRules": [
+    "../../src/rules/*.js"
+  ],
+  "angular": {
+    "requireMatchingFilename": {
+      "filename":  "pascal",
+      "component": "pascal"
+    }
+  }
+}
