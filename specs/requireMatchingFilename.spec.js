@@ -114,6 +114,29 @@ describe('requireMatchingFilename', function() {
     });
   });
 
+  context('with ruling for snake cased file name and camel cased component', function() {
+    beforeEach(function() {
+      configure({
+        requireMatchingFilename: {
+          filename: 'snake',
+          component: 'camel'
+        }
+      });
+    });
+    context('when file name is not matching', function() {
+      it('explains the violation', function() {
+        var errors = errorsFor('someName', 'someName.js');
+        expect(errors[0]).to.have.property('message').that.match(/[Ff]ile.*someName\.js.*not.*snake/);
+      });
+    });
+    context('when component name is not matching', function() {
+      it('explains the violation', function() {
+        var errors = errorsFor('SomeName', 'some_name.js');
+        expect(errors[0]).to.have.property('message').that.match(/[Cc]omponent.*SomeName.*not.*camel/);
+      });
+    });
+  });
+
   it('validates the option for single rule');
   it('validates the option for an array of rules');
   it('validates the option a true value');
