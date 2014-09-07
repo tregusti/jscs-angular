@@ -55,7 +55,7 @@ describe('requireMatchingFilename', function() {
   });
 
   describe('bad option value', function() {
-    context('null', function () {
+    context('null', function() {
       function fn() {
         configure({
           requireMatchingFilename: null
@@ -68,8 +68,8 @@ describe('requireMatchingFilename', function() {
         expect(fn).to.throw(/github.*#requirematchingfilename/i);
       });
     });
-    it('gives an error when no filename for single rule', function () {
-      expect(function () {
+    it('gives an error when no filename for single rule', function() {
+      expect(function() {
         configure({
           requireMatchingFilename: {
             component: 'pascal'
@@ -77,8 +77,8 @@ describe('requireMatchingFilename', function() {
         });
       }).to.throw(/filename/);
     });
-    it('gives an error when no component for single rule', function () {
-      expect(function () {
+    it('gives an error when no component for single rule', function() {
+      expect(function() {
         configure({
           requireMatchingFilename: {
             filename: 'pascal'
@@ -86,8 +86,8 @@ describe('requireMatchingFilename', function() {
         });
       }).to.throw(/component/);
     });
-    it('gives an error when no component for one of several rules', function () {
-      expect(function () {
+    it('gives an error when no component for one of several rules', function() {
+      expect(function() {
         configure({
           requireMatchingFilename: [{
             component: 'pascal',
@@ -166,6 +166,28 @@ describe('requireMatchingFilename', function() {
         var errors = errorsFor('SomeName', 'some_name.js');
         expect(errors[0]).to.have.property('message').that.match(/[Cc]omponent.*SomeName.*not.*camel/);
       });
+    });
+  });
+
+  context('with multiple rules', function() {
+    beforeEach(function() {
+      configure({
+        requireMatchingFilename: [{
+          component: 'pascal',
+          filename:  'pascal'
+        }, {
+          filename:  'snake',
+          component: 'camel'
+        }]
+      });
+    });
+    it('gives one error for each rule in a list', function() {
+      var errors = errorsFor('someName', 'SomeName.js');
+      expect(errors).to.have.length(2);
+    });
+    it('does not give an error when one rule is fulfilled', function() {
+      var errors = errorsFor('SomeName', 'SomeName.js');
+      expect(errors).to.be.empty;
     });
   });
 

@@ -5,7 +5,7 @@ var casing = require('change-case');
 var format = require('util').format;
 var spah   = require('spahql');
 var path   = require('path');
-var type   = require('type-of')
+var type   = require('type-of');
 
 var docLink = require('../../doc-linker');
 
@@ -71,20 +71,38 @@ function validateNames(errors, componentName, baseName, fileName, position) {
       var msg = 'Defined name \'%s\' is not matching the filename \'%s\'';
       errors.add(format(msg, componentName, fileName), position);
     }
-  } else {
+  } else if (type(option) === 'object') {
+    validateNamePair(option, componentName, baseName, fileName);
+  } else if (type(option) === 'array') {
+    for (var i = 0; i < option.length; i++) {
+      if (validateNamePair(option[i], componentName, baseName, fileName)) {
+        // We have at least on rule that match, abort loop.
+        break;
+      }
+    }
+  }
+
+  function validateNamePair(option, componentName, baseName, fileName) {
+    var ok = true;
+    var template;
+
     // File name check
     if (casing[option.filename](baseName) !== baseName) {
-      var msg = 'File name \'%s\' is not matching the %s case rule';
-      errors.add(format(msg, fileName, option.filename), { line: 1, column: 0 });
+      template = 'File name \'%s\' is not matching the %s case rule';
+      errors.add(format(template, fileName, option.filename), { line: 1, column: 0 });
+      ok = false;
     }
 
     // Component name check
     if (casing[option.component](baseName) !== componentName) {
-      var msg = 'Component name \'%s\' is not matching the %s case rule';
+      template = 'Component name \'%s\' is not matching the %s case rule';
       // Move right 1 column to pint to name, not to string quotation.
       position.column++;
-      errors.add(format(msg, componentName, option.component), position);
+      errors.add(format(template, componentName, option.component), position);
+      ok = false;
     }
+
+    return ok;
   }
 }
 
