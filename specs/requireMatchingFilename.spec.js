@@ -100,7 +100,30 @@ describe('requireMatchingFilename', function() {
     });
   });
 
-
+  describe('casing validation', function() {
+    ['dot', 'camel', 'snake', 'dash', 'pascal', 'constant'].forEach(function(casing) {
+      it('does not throw for ' + casing, function() {
+        expect(function() {
+          configure({
+            requireMatchingFilename: {
+              filename: casing,
+              component: casing
+            }
+          });
+        }).to.not.throw;
+      });
+    });
+    it('throws for unknown casing: param', function() {
+      expect(function() {
+        configure({
+          requireMatchingFilename: {
+            filename: 'param',
+            component: 'param'
+          }
+        });
+      }).to.throw(/param/);
+    });
+  });
 
   context('with ruling for camel cased file name and pascal cased component', function() {
     beforeEach(function() {
@@ -146,11 +169,11 @@ describe('requireMatchingFilename', function() {
     });
   });
 
-  context('with ruling for snake cased file name and camel cased component', function() {
+  context('with ruling for dash cased file name and camel cased component', function() {
     beforeEach(function() {
       configure({
         requireMatchingFilename: {
-          filename: 'snake',
+          filename: 'dash',
           component: 'camel'
         }
       });
@@ -158,12 +181,12 @@ describe('requireMatchingFilename', function() {
     context('when file name is not matching', function() {
       it('explains the violation', function() {
         var errors = errorsFor('someName', 'someName.js');
-        expect(errors[0]).to.have.property('message').that.match(/[Ff]ile.*someName\.js.*not.*snake/);
+        expect(errors[0]).to.have.property('message').that.match(/[Ff]ile.*someName\.js.*not.*dash/);
       });
     });
     context('when component name is not matching', function() {
       it('explains the violation', function() {
-        var errors = errorsFor('SomeName', 'some_name.js');
+        var errors = errorsFor('SomeName', 'some-name.js');
         expect(errors[0]).to.have.property('message').that.match(/[Cc]omponent.*SomeName.*not.*camel/);
       });
     });

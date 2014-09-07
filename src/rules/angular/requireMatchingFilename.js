@@ -84,17 +84,19 @@ function validateNames(errors, componentName, baseName, fileName, position) {
 
   function validateNamePair(option, componentName, baseName, fileName) {
     var ok = true;
-    var template;
+    var template, convert;
 
     // File name check
-    if (casing[option.filename](baseName) !== baseName) {
+    convert = casingMethodFor(option.filename);
+    if (convert(baseName) !== baseName) {
       template = 'File name \'%s\' is not matching the %s case rule';
       errors.add(format(template, fileName, option.filename), { line: 1, column: 0 });
       ok = false;
     }
 
     // Component name check
-    if (casing[option.component](baseName) !== componentName) {
+    convert = casingMethodFor(option.component);
+    if (convert(baseName) !== componentName) {
       template = 'Component name \'%s\' is not matching the %s case rule';
       // Move right 1 column to pint to name, not to string quotation.
       position.column++;
@@ -104,6 +106,24 @@ function validateNames(errors, componentName, baseName, fileName, position) {
 
     return ok;
   }
+}
+
+function casingMethodFor(value) {
+  var map = {
+    'dot':      'dot',
+    'dash':     'param', // diff
+    'camel':    'camel',
+    'snake':    'snake',
+    'pascal':   'pascal',
+    'constant': 'constant'
+  };
+
+  assert(
+    Object.keys(map).indexOf(value) !== -1,
+    'Case option ' + value + ' is not available. See documentation at ' + docLink(exports.name)
+  );
+
+  return casing[map[value]];
 }
 
 function validateOptions(options) {
@@ -137,6 +157,8 @@ function validateOption(option) {
       docLink(exports.name)
     )
   );
+  // Implicit validation
+  casingMethodFor(option.filename);
 
   assert(
     option.component,
@@ -147,4 +169,6 @@ function validateOption(option) {
       docLink(exports.name)
     )
   );
+  // Implicit validation
+  casingMethodFor(option.component);
 }
