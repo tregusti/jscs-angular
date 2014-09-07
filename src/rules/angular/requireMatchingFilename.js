@@ -34,14 +34,7 @@ function check(file, errors) {
 }
 
 function configure(value) {
-  assert(
-    value === true || type(value) === 'object',
-    format(
-      'Bad option value: %s. See documentation at %s',
-      JSON.stringify(value),
-      docLink(exports.name)
-    )
-  );
+  validateOptions(value);
 
   option = value;
 }
@@ -93,4 +86,47 @@ function validateNames(errors, componentName, baseName, fileName, position) {
       errors.add(format(msg, componentName, option.component), position);
     }
   }
+}
+
+function validateOptions(options) {
+  if (type(options) === 'object') {
+    validateOption(options);
+    return;
+  }
+
+  if (type(options) === 'array') {
+    options.forEach(validateOption);
+    return;
+  }
+
+  assert(
+    options === true,
+    format(
+      'Bad option value: %s. See documentation at %s',
+      options,
+      docLink(exports.name)
+    )
+  );
+}
+
+function validateOption(option) {
+  assert(
+    option.filename,
+    format(
+      'Required property \'%s\' in %s. See documentation at %s',
+      'filename',
+      JSON.stringify(option),
+      docLink(exports.name)
+    )
+  );
+
+  assert(
+    option.component,
+    format(
+      'Required property \'%s\' in %s. See documentation at %s',
+      'component',
+      JSON.stringify(option),
+      docLink(exports.name)
+    )
+  );
 }

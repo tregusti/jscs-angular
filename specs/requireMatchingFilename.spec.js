@@ -54,17 +54,49 @@ describe('requireMatchingFilename', function() {
     });
   });
 
-  context('bad option value', function() {
-    function fn() {
-      configure({
-        requireMatchingFilename: null
+  describe('bad option value', function() {
+    context('null', function () {
+      function fn() {
+        configure({
+          requireMatchingFilename: null
+        });
+      }
+      it('warns about a bad value', function() {
+        expect(fn).to.throw(/null/);
       });
-    }
-    it('warns about a bad value', function() {
-      expect(fn).to.throw(/null/);
+      it('shows link to documentation', function() {
+        expect(fn).to.throw(/github.*#requirematchingfilename/i);
+      });
     });
-    it('shows link to documentation', function() {
-      expect(fn).to.throw(/github.*#requirematchingfilename/i);
+    it('gives an error when no filename for single rule', function () {
+      expect(function () {
+        configure({
+          requireMatchingFilename: {
+            component: 'pascal'
+          }
+        });
+      }).to.throw(/filename/);
+    });
+    it('gives an error when no component for single rule', function () {
+      expect(function () {
+        configure({
+          requireMatchingFilename: {
+            filename: 'pascal'
+          }
+        });
+      }).to.throw(/component/);
+    });
+    it('gives an error when no component for one of several rules', function () {
+      expect(function () {
+        configure({
+          requireMatchingFilename: [{
+            component: 'pascal',
+            filename:  'camel'
+          }, {
+            filename: 'pascal'
+          }]
+        });
+      }).to.throw(/component/);
     });
   });
 
@@ -136,10 +168,6 @@ describe('requireMatchingFilename', function() {
       });
     });
   });
-
-  it('validates the option for single rule');
-  it('validates the option for an array of rules');
-  it('validates the option a true value');
 
   function errorsFor(name, filename) {
     var source = 'angular.module("mod")\n.controller("%s", function() {})';
