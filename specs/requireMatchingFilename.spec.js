@@ -8,10 +8,13 @@ var format = require('util').format;
 describe('requireMatchingFilename', function() {
   var checker;
 
+  beforeEach(function() {
+    checker = new Checker();
+    checker.registerRule(new (require('../src/rules/delegator.js'))());
+  });
+
   context('with requireMatchingFilename set to true', function() {
     beforeEach(function() {
-      checker = new Checker();
-      checker.registerRule(new (require('../src/rules/delegator.js'))());
       configure({
         requireMatchingFilename: true
       });
@@ -64,6 +67,56 @@ describe('requireMatchingFilename', function() {
       expect(fn).to.throw(/github.*#requirematchingfilename/i);
     });
   });
+
+
+
+  context('with ruling for camel cased file name and pascal cased component', function() {
+    beforeEach(function() {
+      configure({
+        requireMatchingFilename: {
+          filename: 'camel',
+          component: 'pascal'
+        }
+      });
+    });
+    context('when file name is not matching', function() {
+      var errors;
+      beforeEach(function() {
+        errors = errorsFor('SomeName', 'SomeName.js');
+      });
+      it('gives an error', function() {
+        expect(errors).to.have.length(1);
+      });
+      it('explains the violation', function() {
+        expect(errors[0]).to.have.property('message').that.match(/[Ff]ile.*SomeName\.js.*not.*camel/);
+      });
+      it('has position set to beginning of file', function() {
+        expect(errors[0]).to.have.property('line', 1);
+        expect(errors[0]).to.have.property('column', 0);
+      });
+    });
+    context('when component name is not matching', function() {
+      var errors;
+      beforeEach(function() {
+        errors = errorsFor('someName', 'someName.js');
+      });
+      it('gives an error', function() {
+        expect(errors).to.have.length(1);
+      });
+      it('explains the violation', function() {
+        expect(errors[0]).to.have.property('message').that.match(/[Cc]omponent.*someName.*not.*pascal/);
+      });
+      it('has position set correctly', function() {
+        var col = '.controller("'.length;
+        expect(errors[0]).to.have.property('line', 2);
+        expect(errors[0]).to.have.property('column', col);
+      });
+    });
+  });
+
+  it('validates the option for single rule');
+  it('validates the option for an array of rules');
+  it('validates the option a true value');
 
   function errorsFor(name, filename) {
     var source = 'angular.module("mod")\n.controller("%s", function() {})';

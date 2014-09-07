@@ -39,6 +39,8 @@
     "mocha": "^1.21.4"
   },
   "dependencies": {
-    "spahql": "^0.7.6"
+    "change-case": "^2.1.5",
+    "spahql": "^0.7.6",
+    "type-of": "^2.0.1"
   }
 }
