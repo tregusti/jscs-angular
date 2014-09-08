@@ -45,9 +45,18 @@ function angularDefinitionStatus(node) {
 
   var allowed = '"controller", "service", "factory", "directive", "provider", "config"';
   var query = '/callee[/type=="MemberExpression"]/property[/type=="Identifier"][/name }<{ {%s}]';
-  if (!expression.assert(format(query, allowed))) { return false; }
+  var result = expression.select(format(query, allowed));
+  if (!result.length) { return false; }
 
-  var params = expression.select('/arguments[/.size==2]/1[/type=="FunctionExpression"]/params');
+  if (result.value().name === 'config') {
+    // .config(function(deps...) {})
+    query = '/arguments[/.size==1]/0[/type=="FunctionExpression"]/params';
+  } else {
+    // .controller('name', function(deps...) {})
+    query = '/arguments[/.size==2]/1[/type=="FunctionExpression"]/params';
+  }
+
+  var params = expression.select(query);
   if (!params.length) { return false; }
 
   return {

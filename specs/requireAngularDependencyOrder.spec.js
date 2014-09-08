@@ -36,7 +36,7 @@ describe('requireAngularDependencyOrder', function() {
   }, {
     title: 'configurations',
     method: 'config',
-    template: 'angular.module("m").config("c", function(%s) {});'
+    template: 'angular.module("m").config(function(%s) {});'
   }];
 
   context('when set to first', function() {
