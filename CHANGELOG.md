@@ -1,5 +1,6 @@
 # Future
 
+- Added: `allowDirectiveRestrictions` rule.
 - Changed: `requireMatchingFilename` is now more configurable.
 
 # Release 0.0.2 (2014-09-06)

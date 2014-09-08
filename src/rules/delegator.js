@@ -21,7 +21,11 @@ module.exports.prototype.configure = function(options) {
 
   var validators = this._validators;
 
-  var rules = ['requireMatchingFilename', 'requireAngularDependencyOrder'];
+  var rules = [
+    'requireMatchingFilename',
+    'requireAngularDependencyOrder',
+    'allowDirectiveRestrictions'
+  ];
 
   rules.forEach(function(name) {
     if (options.hasOwnProperty(name)) {

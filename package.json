@@ -5,7 +5,7 @@
   "main": "src/index.js",
   "scripts": {
     "test": "./node_modules/.bin/mocha --reporter dot specs",
-    "jshint": "./node_modules/.bin/jshint --reporter ./tools/jshint-reporter.js .",
+    "jshint": "./node_modules/.bin/jshint --reporter ./tools/jshint-reporter.js --exclude examples .",
     "jscs": "./node_modules/.bin/jscs .",
     "lint": "npm run jshint && npm run jscs",
     "travis": "npm run lint && npm run test",

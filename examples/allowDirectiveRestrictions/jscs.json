@@ -1,0 +1,8 @@
+{
+  "additionalRules": [
+    "../../src/rules/*.js"
+  ],
+  "angular": {
+    "limitDirectiveRestrictions": "EA"
+  }
+}
