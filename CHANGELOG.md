@@ -1,5 +1,7 @@
 # Future
 
+- Update `requireAngularDependencyOrder` rule to handle resolve objects. Both for
+[ui-router](http://angular-ui.github.io/ui-router/) and [Angular routes](https://docs.angularjs.org/tutorial/step_07).
 - Added: `allowDirectiveRestrictions` rule.
 - Changed: `requireMatchingFilename` is now more configurable.
 
