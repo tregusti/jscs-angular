@@ -14,7 +14,7 @@ exports.configure = configure;
 // API functions
 
 function check(file, errors) {
-  var matchers = ['componentMatcher', 'uiRouterMatcher'];
+  var matchers = ['componentMatcher', 'uiRouterMatcher', 'ngRouteMatcher'];
   matchers = matchers.map(function(matcher) {
     return require('./requireAngularDependencyOrder/' + matcher + '.js');
   });

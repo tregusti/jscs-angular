@@ -179,6 +179,89 @@ describe('requireAngularDependencyOrder', function() {
         });
       });
     });
+
+    describe('ng-route resolve objects', function() {
+      context('with function syntax', function() {
+        var template = '$routeProvider.when("/url", { resolve: { prop: function(%s, %s) {} } })';
+        var errorsForDependencies = errorsForTemplate.bind(null, template);
+
+        context('with bad order', function() {
+          it('has one error', function() {
+            errors = errorsForDependencies('dep', '$dep');
+            expect(errors).to.have.length(1);
+          });
+        });
+
+        context('with many resolve functions', function() {
+          it('checks all of them', function() {
+            // jshint multistr:true
+            var template = '\
+              $routeProvider.when("/url", {\
+                resolve: {\
+                  prop1: function(%s, %s) {},\
+                  prop2: function(%s, %s) {},\
+                }\
+              })\
+            ';
+            errors = errorsForTemplate(template, 'bad1', '$bad2', 'bad3', '$bad4');
+            expect(errors).to.have.length(2);
+          });
+        });
+
+        context('with correct order', function() {
+          it('has no errors', function() {
+            errors = errorsForDependencies('$dep', 'dep');
+            expect(errors).to.be.empty;
+          });
+        });
+      });
+
+      context('with array syntax', function() {
+        // jshint multistr:true
+        var template = '\
+          $routeProvider.when("/url", {\
+            resolve: { prop: ["%1$s", "%2$s", function(%1$s, %2$s) {}] }\
+          })\
+        ';
+        var errorsForDependencies = errorsForTemplate.bind(null, template);
+
+        context('with bad order', function() {
+          it('has one error', function() {
+            errors = errorsForDependencies('dep', '$dep');
+            expect(errors).to.have.length(1);
+          });
+          it('has the correct position', function() {
+            errors = errorsForDependencies('dep', '$dep');
+            var col = template.indexOf(', "') + 2;
+            expect(errors[0]).to.have.property('line', 1);
+            expect(errors[0]).to.have.property('column', col);
+          });
+        });
+
+        context('with many resolve functions', function() {
+          it('checks all of them', function() {
+            var template = '\
+              $routeProvider.when("/url", {\
+                resolve: {\
+                  prop1: ["%1$s", "%2$s", function(%1$s, %2$s) {}],\
+                  prop2: ["%3$s", "%4$s", function(%3$s, %4$s) {}],\
+                }\
+              })\
+            ';
+            errors = errorsForTemplate(template, 'bad1', '$bad2', 'bad3', '$bad4');
+            expect(errors).to.have.length(2);
+          });
+        });
+
+        context('with correct order', function() {
+          it('has no errors', function() {
+            errors = errorsForDependencies('$dep', 'dep');
+            expect(errors).to.be.empty;
+          });
+        });
+      });
+    });
+
   });
 
   context('when set to last', function() {
