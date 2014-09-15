@@ -72,26 +72,45 @@ function validateNames(errors, componentName, baseName, fileName, position) {
       errors.add(format(msg, componentName, fileName), position);
     }
   } else if (type(option) === 'object') {
-    validateNamePair(option, componentName, baseName, fileName);
+    var pair = invalidNamePair(option, componentName, baseName, fileName);
+    if (pair) {
+      addErrors(errors, [pair]);
+    }
   } else if (type(option) === 'array') {
-    for (var i = 0; i < option.length; i++) {
-      if (validateNamePair(option[i], componentName, baseName, fileName)) {
-        // We have at least on rule that match, abort loop.
-        break;
-      }
+    var pairs = option.map(function(item) {
+      return invalidNamePair(item, componentName, baseName, fileName);
+    });
+
+    var oneValid = pairs.some(function(value) {
+      return value === false;
+    });
+    if (!oneValid) {
+      addErrors(errors, pairs);
     }
   }
 
-  function validateNamePair(option, componentName, baseName, fileName) {
-    var ok = true;
+  function addErrors(errors, pairs) {
+    pairs.forEach(function(pair) {
+      if (pair) {
+        pair.forEach(function(err) {
+          errors.add(err.message, err.position);
+        });
+      }
+    });
+  }
+
+  function invalidNamePair(option, componentName, baseName, fileName) {
+    var out = [];
     var template, convert;
 
     // File name check
     convert = casingMethodFor(option.filename);
     if (convert(baseName) !== baseName) {
       template = 'File name \'%s\' is not matching the %s case rule';
-      errors.add(format(template, fileName, option.filename), { line: 1, column: 0 });
-      ok = false;
+      out.push({
+        message: format(template, fileName, option.filename),
+        position: { line: 1, column: 0 }
+      });
     }
 
     // Component name check
@@ -100,11 +119,13 @@ function validateNames(errors, componentName, baseName, fileName, position) {
       template = 'Component name \'%s\' is not matching the %s case rule';
       // Move right 1 column to pint to name, not to string quotation.
       position.column++;
-      errors.add(format(template, componentName, option.component), position);
-      ok = false;
+      out.push({
+        message: format(template, componentName, option.component),
+        position: position
+      });
     }
 
-    return ok;
+    return out.length ? out : false;
   }
 }
 

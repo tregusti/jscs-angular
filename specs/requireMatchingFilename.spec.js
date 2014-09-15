@@ -212,6 +212,11 @@ describe('requireMatchingFilename', function() {
       var errors = errorsFor('SomeName', 'SomeName.js');
       expect(errors).to.be.empty;
     });
+    it('does not give an error when the second rule is fulfilled', function() {
+      // Ensure issue #12 doesn't happen again.
+      var errors = errorsFor('someName', 'some_name.js');
+      expect(errors).to.be.empty;
+    });
   });
 
   function errorsFor(name, filename) {
