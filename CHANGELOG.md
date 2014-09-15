@@ -1,3 +1,8 @@
+# Release 0.1.0 (2014-09-15)
+
+- Fix [bug #12](https://github.com/tregusti/jscs-angular/issues/12) in `requireMatchingFilename`.
+- Initial usable release, hence version bump.
+
 # Release 0.0.3 (2014-09-14)
 
 - Updated: `requireAngularDependencyOrder` rule now handle resolve objects, for both
