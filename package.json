@@ -34,11 +34,11 @@
   ],
   "devDependencies": {
     "chai": "^1.9.1",
-    "colors": "^0.6.2",
+    "colors": "~1.0.3",
     "jscs": "^1.5.9",
     "jshint": "^2.5.5",
-    "mocha": "^1.21.4",
-    "sprintf-js": "0.0.7"
+    "mocha": "~2.0.1",
+    "sprintf-js": "~1.0.2"
   },
   "dependencies": {
     "change-case": "^2.1.5",
