@@ -9,7 +9,7 @@
     "jscs": "./node_modules/.bin/jscs .",
     "lint": "npm run jshint && npm run jscs",
     "travis": "npm run lint && npm run test",
-    "examples": "for DIR in examples/*/; do jscs -c ${DIR}jscs.json $DIR; done"
+    "examples": "for DIR in examples/*/; do cd $DIR; jscs -c jscs.json .; cd ../..; done"
   },
   "keywords": [
     "jscs",
