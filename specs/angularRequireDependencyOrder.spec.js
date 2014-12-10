@@ -5,12 +5,12 @@ var chai = require('chai');
 var expect = chai.expect;
 var vsprintf = require('sprintf-js').vsprintf;
 
-describe('requireAngularDependencyOrder', function() {
+describe('angularRequireDependencyOrder', function() {
   var checker, errors;
 
   beforeEach(function() {
     checker = new Checker();
-    checker.registerRule(new (require('../src/rules/delegator.js'))());
+    checker.registerRule(new (require('../src/rules/angularRequireDependencyOrder.js'))());
   });
 
   var configs = [{
@@ -65,8 +65,8 @@ describe('requireAngularDependencyOrder', function() {
 
   context('when set to first', function() {
     beforeEach(function() {
-      configure({
-        requireAngularDependencyOrder: 'first'
+      checker.configure({
+        angularRequireDependencyOrder: 'first'
       });
     });
 
@@ -266,8 +266,8 @@ describe('requireAngularDependencyOrder', function() {
 
   context('when set to last', function() {
     beforeEach(function() {
-      configure({
-        requireAngularDependencyOrder: 'last'
+      checker.configure({
+        angularRequireDependencyOrder: 'last'
       });
     });
 
@@ -302,15 +302,15 @@ describe('requireAngularDependencyOrder', function() {
 
   context('bad option value', function() {
     function fn() {
-      configure({
-        requireAngularDependencyOrder: 'wrong'
+      checker.configure({
+        angularRequireDependencyOrder: 'wrong'
       });
     }
     it('warns about a bad value', function() {
       expect(fn).to.throw(/wrong/);
     });
     it('shows link to documentation', function() {
-      expect(fn).to.throw(/github.*#requireangulardependencyorder/i);
+      expect(fn).to.throw(/github.*#angularrequiredependencyorder/i);
     });
   });
 
@@ -318,11 +318,5 @@ describe('requireAngularDependencyOrder', function() {
   function errorsForTemplate(template) {
     var source = vsprintf(template, [].slice.call(arguments, 1));
     return checker.checkString(source).getErrorList();
-  }
-
-  function configure(options) {
-    checker.configure({
-      angular: options
-    });
   }
 });

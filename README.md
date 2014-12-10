@@ -13,7 +13,7 @@
 
     npm install jscs-angular
 
-If you need it globally:
+If you really need it globally:
 
     npm --global install jscs-angular
 
@@ -25,20 +25,17 @@ To use plugin you should add it to your configuration file, e.g. `.jscsrc`:
 {
   "additionalRules": [
     "node_modules/jscs-angular/src/rules/*.js"
-  ],
-  "angular": {
-
-  }
+  ]
 }
 ```
 
 ## Configuration options
 
-All options are placed within the `angular` option in your `jscs` configuration.
+After including the additional rules above, you can use these options:
 
-* [`allowDirectiveRestrictions`](docs/allowDirectiveRestrictions.md)
-* [`requireAngularDependencyOrder`](docs/requireAngularDependencyOrder.md)
-* [`requireMatchingFilename`](docs/requireMatchingFilename.md)
+* [`angularAllowDirectiveRestrictions`](docs/angularAllowDirectiveRestrictions.md)
+* [`angularRequireDependencyOrder`](docs/angularRequireDependencyOrder.md)
+* [`angularRequireMatchingFilename`](docs/angularRequireMatchingFilename.md)
 
 ## Browser support
 

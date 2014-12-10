@@ -5,40 +5,40 @@ var chai = require('chai');
 var expect = chai.expect;
 var format = require('util').format;
 
-describe('allowDirectiveRestrictions', function() {
+describe('angularAllowDirectiveRestrictions', function() {
   var checker;
 
   beforeEach(function() {
     checker = new Checker();
-    checker.registerRule(new (require('../src/rules/delegator.js'))());
+    checker.registerRule(new (require('../src/rules/angularAllowDirectiveRestrictions.js'))());
   });
 
   describe('option validation with', function() {
     context('true', function() {
       function fn() {
-        configure({
-          allowDirectiveRestrictions: true
+        checker.configure({
+          angularAllowDirectiveRestrictions: true
         });
       }
       it('warns about a bad value', function() {
         expect(fn).to.throw(/true/);
       });
       it('shows link to documentation', function() {
-        expect(fn).to.throw(/github.*#allowdirectiverestrictions/);
+        expect(fn).to.throw(/github.*#angularallowdirectiverestrictions/);
       });
     });
     context('string', function() {
       it('allows E,C,M,A', function() {
         expect(function() {
-          configure({
-            allowDirectiveRestrictions: 'ECMA'
+          checker.configure({
+            angularAllowDirectiveRestrictions: 'ECMA'
           });
         }).to.not.throw;
       });
       it('throws on bad values', function() {
         expect(function() {
-          configure({
-            allowDirectiveRestrictions: 'YMCA'
+          checker.configure({
+            angularAllowDirectiveRestrictions: 'YMCA'
           });
         }).to.throw(/\bY\b/);
       });
@@ -47,8 +47,8 @@ describe('allowDirectiveRestrictions', function() {
 
   describe('when validating code', function() {
     beforeEach(function() {
-      configure({
-        allowDirectiveRestrictions: 'EA'
+      checker.configure({
+        angularAllowDirectiveRestrictions: 'EA'
       });
     });
     context('with invalid restrictions', function() {
@@ -71,8 +71,8 @@ describe('allowDirectiveRestrictions', function() {
 
     context('with valid restrictions', function() {
       it('gives no error', function() {
-        configure({
-          allowDirectiveRestrictions: 'EA'
+        checker.configure({
+          angularAllowDirectiveRestrictions: 'EA'
         });
         var errors = errorsFor('AE');
         expect(errors).to.be.empty;
@@ -81,8 +81,8 @@ describe('allowDirectiveRestrictions', function() {
 
     context('when restrict value is not a string', function() {
       it('gives no error since we can not validate', function() {
-        configure({
-          allowDirectiveRestrictions: 'E'
+        checker.configure({
+          angularAllowDirectiveRestrictions: 'E'
         });
         var errors = errorsFor(null);
         expect(errors).to.be.empty;
@@ -95,11 +95,5 @@ describe('allowDirectiveRestrictions', function() {
   function errorsFor(restrictions) {
     var source = format(template, JSON.stringify(restrictions));
     return checker.checkString(source).getErrorList();
-  }
-
-  function configure(options) {
-    checker.configure({
-      angular: options
-    });
   }
 });

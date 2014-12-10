@@ -7,13 +7,9 @@ var spah   = require('spahql');
 var path   = require('path');
 var type   = require('type-of');
 
-var docLink = require('../../doc-linker');
+var docLink = require('../doc-linker');
 
-// API
-
-exports.name      = 'requireMatchingFilename';
-exports.check     = check;
-exports.configure = configure;
+var name = 'angularRequireMatchingFilename';
 
 // API functions
 
@@ -141,7 +137,7 @@ function casingMethodFor(value) {
 
   assert(
     Object.keys(map).indexOf(value) !== -1,
-    'Case option ' + value + ' is not available. See documentation at ' + docLink(exports.name)
+    'Case option ' + value + ' is not available. See documentation at ' + docLink(name)
   );
 
   return casing[map[value]];
@@ -163,7 +159,7 @@ function validateOptions(options) {
     format(
       'Bad option value: %s. See documentation at %s',
       options,
-      docLink(exports.name)
+      docLink(name)
     )
   );
 }
@@ -175,7 +171,7 @@ function validateOption(option) {
       'Required property \'%s\' in %s. See documentation at %s',
       'filename',
       JSON.stringify(option),
-      docLink(exports.name)
+      docLink(name)
     )
   );
   // Implicit validation
@@ -187,9 +183,13 @@ function validateOption(option) {
       'Required property \'%s\' in %s. See documentation at %s',
       'component',
       JSON.stringify(option),
-      docLink(exports.name)
+      docLink(name)
     )
   );
   // Implicit validation
   casingMethodFor(option.component);
 }
+
+// Export API
+
+require('../jscs-exporter')(module, name, configure, check);

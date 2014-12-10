@@ -5,13 +5,9 @@ var type   = require('type-of');
 var format = require('util').format;
 var spah   = require('spahql');
 
-var docLink = require('../../doc-linker');
+var docLink = require('../doc-linker');
 
-// API
-
-exports.name      = 'allowDirectiveRestrictions';
-exports.check     = check;
-exports.configure = configure;
+var name = 'angularAllowDirectiveRestrictions';
 
 // API functions
 
@@ -61,14 +57,14 @@ function check(file, errors) {
 function configure(option) {
   assert(
     type(option) === 'string',
-    format('Bad option value: %s. See documentation at %s', option, docLink(exports.name))
+    format('Bad option value: %s. See documentation at %s', option, docLink(name))
   );
 
   var valid = 'ECMA';
   option.split('').forEach(function(c) {
     assert(
       valid.indexOf(c) >= 0,
-      format('Bad option value: %s. See documentation at %s', c, docLink(exports.name))
+      format('Bad option value: %s. See documentation at %s', c, docLink(name))
     );
   });
 
@@ -78,3 +74,7 @@ function configure(option) {
 // Interals
 
 var validRestrictions;
+
+// Export API
+
+require('../jscs-exporter')(module, name, configure, check);

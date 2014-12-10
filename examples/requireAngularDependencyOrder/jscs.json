@@ -1,8 +1,0 @@
-{
-  "additionalRules": [
-    "../../src/rules/*.js"
-  ],
-  "angular": {
-    "requireAngularDependencyOrder": "first"
-  }
-}

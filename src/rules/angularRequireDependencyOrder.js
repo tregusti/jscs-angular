@@ -3,20 +3,16 @@
 var assert = require('assert');
 var format = require('util').format;
 
-var docLink = require('../../doc-linker');
+var docLink = require('../doc-linker');
 
-// API
-
-exports.name      = 'requireAngularDependencyOrder';
-exports.check     = check;
-exports.configure = configure;
+var name = 'angularRequireDependencyOrder';
 
 // API functions
 
 function check(file, errors) {
   var matchers = ['componentMatcher', 'uiRouterMatcher', 'ngRouteMatcher'];
   matchers = matchers.map(function(matcher) {
-    return require('./requireAngularDependencyOrder/' + matcher + '.js');
+    return require('./angularRequireDependencyOrder/' + matcher + '.js');
   });
 
   file.iterateNodesByType(['CallExpression'], function(expression) {
@@ -32,7 +28,7 @@ function check(file, errors) {
 function configure(option) {
   assert(
     option === 'first' || option === 'last',
-    format('Bad option value: %s. See documentation at %s', option, docLink(exports.name))
+    format('Bad option value: %s. See documentation at %s', option, docLink(name))
   );
   position = option;
 }
@@ -80,3 +76,7 @@ function checkParams(instances, errors) {
     }
   });
 }
+
+// Export API
+
+require('../jscs-exporter')(module, name, configure, check);
