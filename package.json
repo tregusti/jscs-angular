@@ -33,11 +33,11 @@
     }
   ],
   "devDependencies": {
-    "chai": "^1.9.1",
-    "colors": "~1.0.3",
+    "chai": "^3.2.0",
+    "colors": "^1.0.3",
     "jscs": "^1.5.9",
     "jshint": "^2.5.5",
-    "mocha": "~2.0.1",
+    "mocha": "^2.0.1",
     "sprintf-js": "~1.0.2"
   },
   "dependencies": {
