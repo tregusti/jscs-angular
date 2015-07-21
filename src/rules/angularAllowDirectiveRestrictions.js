@@ -36,6 +36,9 @@ function check(file, errors) {
     // Select restrictions property
     var rest = props.select('/[/key/name=="restrict"]/value[/type=="Literal"]').value();
 
+    // Verify presence of restrict property
+    if (!rest) { return; }
+
     // Verify we can validate the value
     if (type(rest.value) !== 'string') { return; }
 

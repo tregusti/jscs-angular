@@ -54,7 +54,7 @@ describe('angularAllowDirectiveRestrictions', function() {
     context('with invalid restrictions', function() {
       var errors;
       beforeEach(function() {
-        errors = errorsFor('EM');
+        errors = errorsForRestrictions('EM');
       });
       it('gives an error', function() {
         expect(errors).to.have.length(1);
@@ -63,7 +63,7 @@ describe('angularAllowDirectiveRestrictions', function() {
         expect(errors[0]).to.have.property('message').that.match(/\bM\b/);
       });
       it('set the position to the bad restriction letter', function() {
-        var col = template.indexOf('%s') + 2;
+        var col = templateWithRestrictions.indexOf('%s') + 2;
         expect(errors[0]).to.have.property('line', 1);
         expect(errors[0]).to.have.property('column', col);
       });
@@ -74,7 +74,7 @@ describe('angularAllowDirectiveRestrictions', function() {
         checker.configure({
           angularAllowDirectiveRestrictions: 'EA'
         });
-        var errors = errorsFor('AE');
+        var errors = errorsForRestrictions('AE');
         expect(errors).to.be.empty;
       });
     });
@@ -84,16 +84,31 @@ describe('angularAllowDirectiveRestrictions', function() {
         checker.configure({
           angularAllowDirectiveRestrictions: 'E'
         });
-        var errors = errorsFor(null);
+        var errors = errorsForRestrictions(null);
+        expect(errors).to.be.empty;
+      });
+    });
+
+    context('when restrict is not present', function() {
+      it('gives no error since we can not validate', function() {
+        checker.configure({
+          angularAllowDirectiveRestrictions: 'E'
+        });
+        var errors = errorsWithTemplate('app.directive("thing", function() { return {}; })');
         expect(errors).to.be.empty;
       });
     });
   });
 
-  var template = 'app.directive("thing", function() { return { restrict: %s }; })';
+  var templateWithRestrictions = 'app.directive("thing", function() { return { restrict: %s }; })';
 
-  function errorsFor(restrictions) {
-    var source = format(template, JSON.stringify(restrictions));
+  function errorsForRestrictions(restrictions) {
+    var source = format(templateWithRestrictions, JSON.stringify(restrictions));
+    return checker.checkString(source).getErrorList();
+  }
+
+  function errorsWithTemplate(template) {
+    var source = format(template);
     return checker.checkString(source).getErrorList();
   }
 });
