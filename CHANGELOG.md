@@ -1,3 +1,10 @@
+# Release 1.0.0 (2015-07-21)
+
+- Flatten [rule structure](flatten-link) to be able to disable and enable rules as any other rule in JSCS.
+- Update dependencies.
+
+  [flatten-link]: https://github.com/tregusti/jscs-angular/commit/2e9336586e72ef4448370e245deceb9d90d82a73
+
 # Release 0.1.0 (2014-09-15)
 
 - Fix [bug #12](https://github.com/tregusti/jscs-angular/issues/12) in `requireMatchingFilename`.
