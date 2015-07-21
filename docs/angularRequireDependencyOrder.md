@@ -1,4 +1,4 @@
-# `requireAngularDependencyOrder`
+# `angularRequireDependencyOrder`
 
 This rule requires that angular dependencies are specified either `first` or `last` in a list of
 dependencies for controllers, directives, factories, services, providers, configurations and resolve

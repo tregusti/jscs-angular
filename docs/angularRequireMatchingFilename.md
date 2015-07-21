@@ -1,4 +1,4 @@
-# `requireMatchingFilename`
+# `angularRequireMatchingFilename`
 
 This rule ha two different modes. If the value `true` is supplied, it requires that the filename
 without extension exactly matches the name defined in the file. No matter the casing of he name.
@@ -22,11 +22,9 @@ When using an array of rules, at least one of the rules must apply, otherwise it
 
 ```json
 {
-  "angular": {
-    "requireMatchingFilename": {
-      "component": "pascal",
-      "filename": "dash"
-    }
+  "angularRequireMatchingFilename": {
+    "component": "pascal",
+    "filename": "dash"
   }
 }
 ```
@@ -46,15 +44,13 @@ like this:
 
 ```json
 {
-  "angular": {
-    "requireMatchingFilename": [{
-      "component": "camel",
-      "filename": "camel"
-    }, {
-      "component": "pascal",
-      "filename": "pascal"
-    }]
-  }
+  "angularRequireMatchingFilename": [{
+    "component": "camel",
+    "filename": "camel"
+  }, {
+    "component": "pascal",
+    "filename": "pascal"
+  }]
 }
 ```
 
@@ -70,9 +66,7 @@ angular.module('app').controller('goodController', function() {
 
 ```json
 {
-  "angular": {
-    "requireMatchingFilename": true
-  }
+  "angularRequireMatchingFilename": true
 }
 ```
 With a file named `assets/bad-controller.js`:

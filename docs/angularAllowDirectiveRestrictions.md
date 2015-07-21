@@ -1,4 +1,4 @@
-# `allowDirectiveRestrictions`
+# `angularAllowDirectiveRestrictions`
 
 This option allow you to specify valid restrictions for directives. The value is a string with one
 or more of `E`, `C`, `M` and `A`.
@@ -10,7 +10,7 @@ With this configuration:
 ```json
 {
   "angular": {
-    "allowDirectiveRestrictions": "EA"
+    "angularAllowDirectiveRestrictions": "EA"
   }
 }
 ```
