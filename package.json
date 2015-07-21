@@ -12,6 +12,8 @@
     "examples": "for DIR in examples/*/; do cd $DIR; jscs -c jscs.json .; cd ../..; done"
   },
   "keywords": [
+    "style",
+    "styles",
     "jscs",
     "jscs-plugin",
     "angular",
