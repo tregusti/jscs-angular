@@ -1,3 +1,6 @@
+- Updated: `requireAngularDependencyOrder` now handles multiple chained `route`/`state`
+  definitions. Fixes #18.
+
 # Release 1.0.0 (2015-07-21)
 
 - Flatten [rule structure](flatten-link) to be able to disable and enable rules as any other rule in JSCS.

@@ -1,9 +1,18 @@
 var dependenciesFromInjectionPoint = require('./dependenciesFromInjectionPoint');
 
 module.exports = function(memberExpression, objectName, propertyName) {
-  // Assert the $routeProvider#when method was accessed.
+  // Assert the member was accessed on $routeProvider.
   if (memberExpression.object.type !== 'Identifier') { return; }
   if (memberExpression.object.name !== objectName) { return; }
+
+  var list = [];
+  extractDependencyLists(memberExpression, list, propertyName);
+  return list;
+}
+
+function extractDependencyLists(memberExpression, list, propertyName) {
+  // Assert the #when method was accessed.
+  if (memberExpression.type !== 'MemberExpression') { return; }
   if (memberExpression.property.type !== 'Identifier') { return; }
   if (memberExpression.property.name !== propertyName) { return; }
 
@@ -23,7 +32,6 @@ module.exports = function(memberExpression, objectName, propertyName) {
 
   if (!resolveProperty) { return; }
 
-  var list = [];
   resolveProperty.value.properties.forEach(function(property) {
     var deps = dependenciesFromInjectionPoint(property.value);
     if (deps) {
@@ -31,5 +39,5 @@ module.exports = function(memberExpression, objectName, propertyName) {
     }
   });
 
-  return list;
+  extractDependencyLists(callExpression.parentNode, list, propertyName);
 }
