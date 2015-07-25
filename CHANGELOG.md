@@ -1,5 +1,8 @@
+# Release 1.1.0 (2015-07-25)
+
 - Fix #18: `requireAngularDependencyOrder` now handles multiple chained `route`/`state`
-  definitions.
+  definitions. This may have quite a big impact on projects since `jscs-angular` now will
+  find a lot more offences than before, hence a minor version bump is warranted.
 
 # Release 1.0.2 (2015-07-21)
 
