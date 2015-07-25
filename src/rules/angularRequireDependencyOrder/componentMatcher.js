@@ -1,27 +1,44 @@
 'use strict';
 
-var spah   = require('spahql');
 var format = require('util').format;
 
-var getDependencyInstances = require('./getDependencyInstances');
+var dependenciesFromInjectionPoint = require('./utils/dependenciesFromInjectionPoint');
 
-module.exports = function(node) {
-  var expression = spah.db(node);
+module.exports = function(memberExpression) {
+  var allowedWithName = ['controller', 'service', 'factory', 'directive', 'provider'];
+  var allowedWithoutName = ['config'];
 
-  if (!expression.assert('/type=="CallExpression"')) { return; }
+  if (memberExpression.property.type !== 'Identifier') { return; }
 
-  var allowed = '"controller", "service", "factory", "directive", "provider", "config"';
-  var query = '/callee[/type=="MemberExpression"]/property[/type=="Identifier"][/name }<{ {%s}]';
-  var result = expression.select(format(query, allowed));
-  if (!result.length) { return; }
-
-  if (result.value().name === 'config') {
-    // .config(function(deps...) {})
-    query = '/arguments[/.size==1]/0';
-  } else {
-    // .controller('name', function(deps...) {})
-    query = '/arguments[/.size==2]/1';
+  if (allowedWithName.indexOf(memberExpression.property.name) >= 0) {
+    return parseWithName(memberExpression);
   }
 
-  return getDependencyInstances(expression.select(query));
+  if (allowedWithoutName.indexOf(memberExpression.property.name) >= 0) {
+    return parseWithoutName(memberExpression);
+  }
 };
+
+function parseWithoutName(memberExpression) {
+  var expression = getInjectionExpression(memberExpression, 0);
+  return [dependenciesFromInjectionPoint(expression)];
+}
+
+function parseWithName(memberExpression) {
+  var expression = getInjectionExpression(memberExpression, 1);
+  return [dependenciesFromInjectionPoint(expression)];
+}
+
+function getInjectionExpression(memberExpression, argumentIndex) {
+  // Verify CallExpression `MemberExpression(..., Function)`.
+  var callExpression = memberExpression.parentNode;
+  if (callExpression.type !== 'CallExpression') { return; }
+
+  if (callExpression.arguments[argumentIndex].type === 'FunctionExpression') {
+    return callExpression.arguments[argumentIndex];
+  }
+
+  if (callExpression.arguments[argumentIndex].type === 'ArrayExpression') {
+    return callExpression.arguments[argumentIndex];
+  }
+}

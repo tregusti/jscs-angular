@@ -1,3 +1,6 @@
+- Fix #18: `requireAngularDependencyOrder` now handles multiple chained `route`/`state`
+  definitions.
+
 # Release 1.0.2 (2015-07-21)
 
 - Fix: Don't crash when `restrict` property is missing for `angularAllowDirectiveRestrictions`
@@ -16,7 +19,7 @@
 
 # Release 0.1.0 (2014-09-15)
 
-- Fix: #12 in `angularRequireMatchingFilename`.
+- Fix #12: In `angularRequireMatchingFilename`.
 - Initial usable release, hence version bump.
 
 # Release 0.0.3 (2014-09-14)

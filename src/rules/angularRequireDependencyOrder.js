@@ -15,7 +15,7 @@ function check(file, errors) {
     return require('./angularRequireDependencyOrder/' + matcher + '.js');
   });
 
-  file.iterateNodesByType(['CallExpression'], function(expression) {
+  file.iterateNodesByType(['MemberExpression'], function(expression) {
     matchers.forEach(function(matcher) {
       var instances = matcher(expression);
       if (instances) {

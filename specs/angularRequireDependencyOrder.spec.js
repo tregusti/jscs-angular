@@ -178,6 +178,26 @@ describe('angularRequireDependencyOrder', function() {
           });
         });
       });
+
+      context('with multiple states (bug #18)', function() {
+        // https://github.com/tregusti/jscs-angular/issues/18
+        var template = '$stateProvider' +
+        '  .state("state1", {' +
+        '    resolve: {' +
+        '      func1: function (a, b, c, d, $http) {},' +
+        '      func2: function (e, f, g, h, $injector) {}' +
+        '    }' +
+        '  })' +
+        '  .state("state2", {' +
+        '    resolve: {' +
+        '      func: function (foo, bar, baz, $q, $route) {}' +
+        '    }' +
+        '  })';
+        it('finds all offending dependencies', function() {
+          var errors = errorsForTemplate(template);
+          expect(errors).to.have.length(4);
+        });
+      });
     });
 
     describe('ng-route resolve objects', function() {
@@ -258,6 +278,26 @@ describe('angularRequireDependencyOrder', function() {
             errors = errorsForDependencies('$dep', 'dep');
             expect(errors).to.be.empty;
           });
+        });
+      });
+
+      context('with multiple states (bug #18)', function() {
+        // https://github.com/tregusti/jscs-angular/issues/18
+        var template = '$routeProvider' +
+        '  .when("/route1", {' +
+        '    resolve: {' +
+        '      func1: function (a, b, c, d, $http) {},' +
+        '      func2: function (e, f, g, h, $injector) {}' +
+        '    }' +
+        '  })' +
+        '  .when("/route2", {' +
+        '    resolve: {' +
+        '      func: function (foo, bar, baz, $q, $stateParams) {}' +
+        '    }' +
+        '  })';
+        it('finds all offending dependencies', function() {
+          var errors = errorsForTemplate(template);
+          expect(errors).to.have.length(4);
         });
       });
     });
