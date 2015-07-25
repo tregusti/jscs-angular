@@ -1,27 +1,39 @@
+# Release 1.0.2 (2015-07-21)
+
+- Fix: Don't crash when `restrict` property is missing for `angularAllowDirectiveRestrictions`
+
+# Release 1.0.1 (2015-07-21)
+
+- License change fix.
+
 # Release 1.0.0 (2015-07-21)
 
 - Flatten [rule structure](flatten-link) to be able to disable and enable rules as any other rule in JSCS.
 - Update dependencies.
+- License change.
 
   [flatten-link]: https://github.com/tregusti/jscs-angular/commit/2e9336586e72ef4448370e245deceb9d90d82a73
 
 # Release 0.1.0 (2014-09-15)
 
-- Fix [bug #12](https://github.com/tregusti/jscs-angular/issues/12) in `requireMatchingFilename`.
+- Fix: #12 in `angularRequireMatchingFilename`.
 - Initial usable release, hence version bump.
 
 # Release 0.0.3 (2014-09-14)
 
-- Updated: `requireAngularDependencyOrder` rule now handle resolve objects, for both
-[ui-router](http://angular-ui.github.io/ui-router/) and [Angular routes](https://docs.angularjs.org/tutorial/step_07).
-- Added: `allowDirectiveRestrictions` rule.
-- Changed: `requireMatchingFilename` is now more configurable.
+- Added: `angularAllowDirectiveRestrictions` rule.
+- Changed: `angularRequireDependencyOrder` rule now handle resolve objects, for both
+  [ui-router][ui-router] and [Angular routes][ng-route].
+- Changed: `angularRequireMatchingFilename` is now more configurable.
+
+  [ng-route]: https://docs.angularjs.org/tutorial/step_07
+  [ui-router]: http://angular-ui.github.io/ui-router/
 
 # Release 0.0.2 (2014-09-06)
 
-- Added: `requireMatchingFilename` rule.
+- Added: `angularRequireMatchingFilename` rule.
 - Validate option values for rules.
 
 # Release 0.0.1 (2014-09-03)
 
-- Initial release with `requireAngularDependencyOrder` rule.
+- Initial release with `angularRequireDependencyOrder` rule.
