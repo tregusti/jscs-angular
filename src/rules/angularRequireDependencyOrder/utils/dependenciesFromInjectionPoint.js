@@ -17,7 +17,8 @@ It will return a list of instances like:
 }]
 ```
 
-@param {ArrayExpression|FunctionExpression} expression - An expression that takes some dependencies (http://bit.ly/1MsS4Rz)
+@param {ArrayExpression|FunctionExpression} expression - An expression that takes some
+      dependencies (http://bit.ly/1MsS4Rz)
 @returns {Array<Object>} - A list of dependencies
 */
 module.exports = function(expression) {

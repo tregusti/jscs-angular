@@ -1,3 +1,5 @@
+'use strict';
+
 var dependenciesFromInjectionPoint = require('./dependenciesFromInjectionPoint');
 
 module.exports = function(memberExpression, objectName, propertyName) {
@@ -8,7 +10,7 @@ module.exports = function(memberExpression, objectName, propertyName) {
   var list = [];
   extractDependencyLists(memberExpression, list, propertyName);
   return list;
-}
+};
 
 function extractDependencyLists(memberExpression, list, propertyName) {
   // Assert the #when method was accessed.

@@ -1,7 +1,5 @@
 'use strict';
 
-var format = require('util').format;
-
 var dependenciesFromInjectionPoint = require('./utils/dependenciesFromInjectionPoint');
 
 module.exports = function(memberExpression) {
