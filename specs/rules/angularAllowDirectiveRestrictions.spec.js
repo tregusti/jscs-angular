@@ -10,7 +10,7 @@ describe('angularAllowDirectiveRestrictions', function() {
 
   beforeEach(function() {
     checker = new Checker();
-    checker.registerRule(new (require('../src/rules/angularAllowDirectiveRestrictions.js'))());
+    checker.registerRule(new (require('../../src/rules/angularAllowDirectiveRestrictions.js'))());
   });
 
   describe('option validation with', function() {

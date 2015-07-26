@@ -4,24 +4,15 @@ var assert = require('assert');
 var format = require('util').format;
 
 var docLink = require('../doc-linker');
+var dependencyExpression = require('../dependencyExpression');
 
 var name = 'angularRequireDependencyOrder';
 
 // API functions
 
 function check(file, errors) {
-  var matchers = ['componentMatcher', 'uiRouterMatcher', 'ngRouteMatcher'];
-  matchers = matchers.map(function(matcher) {
-    return require('./angularRequireDependencyOrder/' + matcher + '.js');
-  });
-
-  file.iterateNodesByType(['MemberExpression'], function(expression) {
-    matchers.forEach(function(matcher) {
-      var instances = matcher(expression);
-      if (instances) {
-        checkParams(instances, errors);
-      }
-    });
+  dependencyExpression.allFromNode(file).forEach(function(dependencyExpression) {
+    checkParams(dependencyExpression, errors);
   });
 }
 
@@ -37,44 +28,45 @@ function configure(option) {
 
 var position;
 
-function checkParams(instances, errors) {
-  instances.forEach(function(instance) {
-    var lastTrailingDependency = null;
-    if (position === 'first') {
+function checkParams(dependencyExpression, errors) {
 
-      instance.forEach(function(param) {
-        if (param.name.substr(0, 1) !== '$' && !lastTrailingDependency) {
-          lastTrailingDependency = param.name;
-          return;
-        }
+  var dependencies = dependencyExpression.dependencies;
 
-        if (param.name.substr(0, 1) === '$' && lastTrailingDependency) {
-          var message = format(
-            'Angular dependency %s should be defined before %s',
-            param.name,
-            lastTrailingDependency
-          );
-          errors.add(message, param.loc.start);
-        }
-      });
-    } else if (position === 'last') {
-      instance.forEach(function(param) {
-        if (param.name.substr(0, 1) === '$' && !lastTrailingDependency) {
-          lastTrailingDependency = param.name;
-          return;
-        }
+  var lastTrailingDependency = null;
+  if (position === 'first') {
 
-        if (param.name.substr(0, 1) !== '$' && lastTrailingDependency) {
-          var message = format(
-            'Custom dependency %s should be defined after %s',
-            param.name,
-            lastTrailingDependency
-          );
-          errors.add(message, param.loc.start);
-        }
-      });
-    }
-  });
+    dependencies.forEach(function(dependency) {
+      if (dependency.name.substr(0, 1) !== '$' && !lastTrailingDependency) {
+        lastTrailingDependency = dependency.name;
+        return;
+      }
+
+      if (dependency.name.substr(0, 1) === '$' && lastTrailingDependency) {
+        var message = format(
+          'Angular dependency %s should be defined before %s',
+          dependency.name,
+          lastTrailingDependency
+        );
+        errors.add(message, dependency.loc.start);
+      }
+    });
+  } else if (position === 'last') {
+    dependencies.forEach(function(dependency) {
+      if (dependency.name.substr(0, 1) === '$' && !lastTrailingDependency) {
+        lastTrailingDependency = dependency.name;
+        return;
+      }
+
+      if (dependency.name.substr(0, 1) !== '$' && lastTrailingDependency) {
+        var message = format(
+          'Custom dependency %s should be defined after %s',
+          dependency.name,
+          lastTrailingDependency
+        );
+        errors.add(message, dependency.loc.start);
+      }
+    });
+  }
 }
 
 // Export API

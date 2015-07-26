@@ -36,6 +36,7 @@ After including the additional rules above, you can use these options:
 * [`angularAllowDirectiveRestrictions`](docs/angularAllowDirectiveRestrictions.md)
 * [`angularRequireDependencyOrder`](docs/angularRequireDependencyOrder.md)
 * [`angularRequireMatchingFilename`](docs/angularRequireMatchingFilename.md)
+* [`angularVerifyDependencyUsage`](docs/angularVerifyDependencyUsage.md)
 
 ## Browser support
 

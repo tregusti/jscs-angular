@@ -10,7 +10,7 @@ describe('angularRequireDependencyOrder', function() {
 
   beforeEach(function() {
     checker = new Checker();
-    checker.registerRule(new (require('../src/rules/angularRequireDependencyOrder.js'))());
+    checker.registerRule(new (require('../../src/rules/angularRequireDependencyOrder.js'))());
   });
 
   var configs = [{

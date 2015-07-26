@@ -1,0 +1,6 @@
+{
+  "additionalRules": [
+    "../../src/rules/*.js"
+  ],
+  "angularVerifyDependencyUsage": true
+}

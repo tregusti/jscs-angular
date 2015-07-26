@@ -10,7 +10,7 @@ describe('angularRequireMatchingFilename', function() {
 
   beforeEach(function() {
     checker = new Checker();
-    checker.registerRule(new (require('../src/rules/angularRequireMatchingFilename.js'))());
+    checker.registerRule(new (require('../../src/rules/angularRequireMatchingFilename.js'))());
   });
 
   context('with angularRequireMatchingFilename set to true', function() {

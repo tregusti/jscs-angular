@@ -1,6 +1,6 @@
 'use strict';
 
-var dependenciesFromInjectionPoint = require('./dependenciesFromInjectionPoint');
+var DependencyExpression = require('..');
 
 module.exports = function(memberExpression, objectName, propertyName) {
   // Assert the member was accessed on $routeProvider.
@@ -8,11 +8,11 @@ module.exports = function(memberExpression, objectName, propertyName) {
   if (memberExpression.object.name !== objectName) { return; }
 
   var list = [];
-  extractDependencyLists(memberExpression, list, propertyName);
+  extractDependencyExpressions(memberExpression, list, propertyName);
   return list;
 };
 
-function extractDependencyLists(memberExpression, list, propertyName) {
+function extractDependencyExpressions(memberExpression, list, propertyName) {
   // Assert the #when method was accessed.
   if (memberExpression.type !== 'MemberExpression') { return; }
   if (memberExpression.property.type !== 'Identifier') { return; }
@@ -35,11 +35,9 @@ function extractDependencyLists(memberExpression, list, propertyName) {
   if (!resolveProperty) { return; }
 
   resolveProperty.value.properties.forEach(function(property) {
-    var deps = dependenciesFromInjectionPoint(property.value);
-    if (deps) {
-      list.push(deps);
-    }
+    var name = property.key && property.key.type === 'Identifier' ? property.key.name : null;
+    list.push(new DependencyExpression(property.value, 'resolve', name));
   });
 
-  extractDependencyLists(callExpression.parentNode, list, propertyName);
+  extractDependencyExpressions(callExpression.parentNode, list, propertyName);
 }

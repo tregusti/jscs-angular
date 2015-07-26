@@ -17,16 +17,16 @@ It will return a list of instances like:
 }]
 ```
 
-@param {ArrayExpression|FunctionExpression} expression - An expression that takes some
+@param {ArrayExpression|FunctionExpression} dependencyExpression - An expression that takes some
       dependencies (http://bit.ly/1MsS4Rz)
 @returns {Array<Object>} - A list of dependencies
 */
-module.exports = function(expression) {
-  if (!expression) { return []; }
+module.exports = function(dependencyExpression) {
+  if (!dependencyExpression) { return []; }
 
   // Extract from function expression
-  if (expression.type === 'FunctionExpression') {
-    return expression.params.map(function(param) {
+  if (dependencyExpression.type === 'FunctionExpression') {
+    return dependencyExpression.params.map(function(param) {
       return {
         loc: clone(param.loc, false),
         name: param.name
@@ -35,9 +35,9 @@ module.exports = function(expression) {
   }
 
   // Extract from array expression
-  if (expression.type === 'ArrayExpression') {
+  if (dependencyExpression.type === 'ArrayExpression') {
     var params = [];
-    var elements = expression.elements.slice();
+    var elements = dependencyExpression.elements.slice();
     while (elements.length > 1) {
       var element = elements.shift();
       if (element.type !== 'Literal') { return; }

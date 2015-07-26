@@ -4,20 +4,20 @@
   "description": "JSCS rules for AngularJS",
   "main": "src/index.js",
   "scripts": {
-    "test": "./node_modules/.bin/mocha --reporter dot specs",
-    "jshint": "./node_modules/.bin/jshint --reporter ./tools/jshint-reporter.js --exclude examples .",
+    "examples": "for DIR in examples/*/; do cd $DIR; jscs -c jscs.json .; cd ../..; done",
     "jscs": "./node_modules/.bin/jscs .",
+    "jshint": "./node_modules/.bin/jshint --reporter ./tools/jshint-reporter.js --exclude examples .",
     "lint": "npm run jshint && npm run jscs",
-    "travis": "npm run lint && npm run test",
-    "examples": "for DIR in examples/*/; do cd $DIR; jscs -c jscs.json .; cd ../..; done"
+    "test": "./node_modules/.bin/mocha --reporter dot 'specs/**/*.spec.js'",
+    "travis": "npm run lint && npm run test"
   },
   "keywords": [
-    "style",
-    "styles",
+    "angular",
+    "angularjs",
     "jscs",
     "jscs-plugin",
-    "angular",
-    "angularjs"
+    "style",
+    "styles"
   ],
   "homepage": "https://github.com/tregusti/jscs-angular",
   "repository": {
@@ -28,14 +28,19 @@
     "url": "https://github.com/tregusti/jscs-angular/issues"
   },
   "author": "Glenn Jorde <glenn@tregusti.com>",
-  "licenses": [{
-    "type": "MIT",
-    "url": "http://tregusti.mit-license.org/"
-  }],
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "http://tregusti.mit-license.org/"
+    }
+  ],
+  "peerDependencies": {
+    "jscs": "^1.5.9"
+  },
   "devDependencies": {
     "chai": "^3.2.0",
     "colors": "^1.0.3",
-    "jscs": "^1.5.9",
+    "esprima": "^2.4.1",
     "jshint": "^2.5.5",
     "mocha": "^2.0.1",
     "sprintf-js": "~1.0.2"
