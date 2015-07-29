@@ -25,13 +25,17 @@
 
     npm install jscs-angular
 
-If you really need it globally:
-
-    npm --global install jscs-angular
-
 ## Usage
 
-To use plugin you should add it to your configuration file, e.g. `.jscsrc`:
+To use this plugin you should add it to your configuration file, e.g. `.jscsrc`:
+
+```json
+{
+  "plugins": ["jscs-angular"]
+}
+```
+
+If you are using a JSCS version below `1.8` please use the old way of including the rules:
 
 ```json
 {
