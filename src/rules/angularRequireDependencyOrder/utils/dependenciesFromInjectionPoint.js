@@ -22,6 +22,8 @@ It will return a list of instances like:
 @returns {Array<Object>} - A list of dependencies
 */
 module.exports = function(expression) {
+  if (!expression) { return []; }
+
   // Extract from function expression
   if (expression.type === 'FunctionExpression') {
     return expression.params.map(function(param) {

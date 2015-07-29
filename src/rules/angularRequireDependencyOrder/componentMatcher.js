@@ -19,24 +19,23 @@ module.exports = function(memberExpression) {
 
 function parseWithoutName(memberExpression) {
   var expression = getInjectionExpression(memberExpression, 0);
-  return [dependenciesFromInjectionPoint(expression)];
+  return expression ? [dependenciesFromInjectionPoint(expression)] : [];
 }
 
 function parseWithName(memberExpression) {
   var expression = getInjectionExpression(memberExpression, 1);
-  return [dependenciesFromInjectionPoint(expression)];
+  return expression ? [dependenciesFromInjectionPoint(expression)] : [];
 }
 
 function getInjectionExpression(memberExpression, argumentIndex) {
-  // Verify CallExpression `MemberExpression(..., Function)`.
+  // Verify CallExpression `MemberExpression(..., Function|Array)`.
   var callExpression = memberExpression.parentNode;
   if (callExpression.type !== 'CallExpression') { return; }
 
-  if (callExpression.arguments[argumentIndex].type === 'FunctionExpression') {
-    return callExpression.arguments[argumentIndex];
-  }
+  var arg = callExpression.arguments[argumentIndex];
+  if (!arg) { return; }
 
-  if (callExpression.arguments[argumentIndex].type === 'ArrayExpression') {
-    return callExpression.arguments[argumentIndex];
+  if (/ArrayExpression|FunctionExpression/.test(arg.type)) {
+    return arg;
   }
 }

@@ -302,6 +302,19 @@ describe('angularRequireDependencyOrder', function() {
       });
     });
 
+    describe('reproduction of issue #21', function() {
+      it('should not crash when config argument is a named function variable', function() {
+        var template = 'function config() {}; angular.module("mod").config(config);';
+        errors = errorsForTemplate(template);
+        expect(errors).to.be.empty;
+      });
+      it('handles a .provider access without invocation', function() {
+        var template = 'var hello = { provider: 1 }; var t = hello.provider;';
+        errors = errorsForTemplate(template);
+        expect(errors).to.be.empty;
+      });
+    });
+
   });
 
   context('when set to last', function() {
