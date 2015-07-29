@@ -4,8 +4,7 @@
 [![Build Status][build-image]][build-link]
 [![Dependency Status][dep-image]][dep-link]
 [![devDependency Status][devdep-image]][devdep-link]
-
-[AngularJS](https://angularjs.org/) plugin for [JSCS](https://github.com/jscs-dev/node-jscs).
+[![peerDependency Status][peerdep-image]][peerdep-link]
 
   [version-image]: http://img.shields.io/npm/v/jscs-angular.svg
   [version-link]:  https://www.npmjs.org/package/jscs-angular
@@ -15,6 +14,10 @@
   [dep-link]:      https://david-dm.org/tregusti/jscs-angular
   [devdep-image]:  https://david-dm.org/tregusti/jscs-angular/dev-status.svg?theme=shields.io
   [devdep-link]:   https://david-dm.org/tregusti/jscs-angular#info=devDependencies
+  [peerdep-image]: https://david-dm.org/tregusti/jscs-angular/peer-status.svg
+  [peerdep-link]:  https://david-dm.org/tregusti/jscs-angular#info=peerDependencies
+
+[AngularJS](https://angularjs.org/) plugin for [JSCS](https://github.com/jscs-dev/node-jscs).
 
 ## Plugin installation
 
