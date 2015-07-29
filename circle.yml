@@ -1,0 +1,13 @@
+dependencies:
+  pre:
+    - if [ $CIRCLE_NODE_INDEX == "0" ]; then nvm install 0.10 && nvm alias default 0.10 ; fi
+    - if [ $CIRCLE_NODE_INDEX == "1" ]; then nvm install 0.12 && nvm alias default 0.12 ; fi
+    - if [ $CIRCLE_NODE_INDEX == "2" ]; then nvm install iojs-v1 && nvm alias default iojs-v1 ; fi
+    - if [ $CIRCLE_NODE_INDEX == "3" ]; then nvm install iojs-v2 && nvm alias default iojs-v2 ; fi
+
+test:
+  override:
+    - node -v:
+        parallel: true
+    - npm test:
+        parallel: true
