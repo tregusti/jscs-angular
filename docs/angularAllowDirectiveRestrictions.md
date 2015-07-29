@@ -9,9 +9,7 @@ With this configuration:
 
 ```json
 {
-  "angular": {
-    "angularAllowDirectiveRestrictions": "EA"
-  }
+  "angularAllowDirectiveRestrictions": "EA"
 }
 ```
 

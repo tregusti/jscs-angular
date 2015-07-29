@@ -8,9 +8,7 @@ With this configuration:
 
 ```json
 {
-  "angular": {
-    "angularVerifyDependencyUsage": true
-  }
+  "angularVerifyDependencyUsage": true
 }
 ```
 
