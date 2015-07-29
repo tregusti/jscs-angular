@@ -1,5 +1,6 @@
 'use strict';
 
+var type    = require('type-of');
 var esprima = require('esprima');
 var JsFile  = require('jscs/lib/js-file');
 var expect  = require('chai').expect;
@@ -83,6 +84,16 @@ describe('dependencyExpression', function() {
 });
 
 function parse(source) {
-  var tree = JsFile.parse(source, esprima);
-  return new JsFile('example.js', source, tree);
+  if (type(JsFile.parse) === 'function') {
+    // JSCS >1.5.9 <2.0.0
+    var tree = JsFile.parse(source, esprima);
+    return new JsFile('example.js', source, tree);
+  } else {
+    // JSCS >2.0.0
+    return new JsFile({
+      filename: 'example.js',
+      source: source,
+      esprima: esprima
+    });
+  }
 }

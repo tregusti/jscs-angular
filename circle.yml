@@ -11,3 +11,5 @@ test:
         parallel: true
     - npm test:
         parallel: true
+    - npm install jscs@1 && npm test:
+        parallel: true
