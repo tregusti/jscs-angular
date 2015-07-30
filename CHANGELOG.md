@@ -1,3 +1,5 @@
+# v1.2.1 (2015-07-30)
+
 - Support JSCS v1.8 plugin architecture. #20.
 - Support JSCS v2.x. #22.
 
