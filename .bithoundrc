@@ -1,0 +1,9 @@
+{
+  "ignore": [
+    "node_modules/**",
+    "examples/**"
+  ],
+  "test": [
+    "specs/**"
+  ]
+}
