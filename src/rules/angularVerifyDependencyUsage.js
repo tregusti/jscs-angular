@@ -32,11 +32,16 @@ function configure(option) {
 var enabled;
 
 function checkExpression(dependencyExpression, errors) {
-  dependencyExpression.dependencies.forEach(function(dependency) {
-    if (!findIdentifier(dependencyExpression.expression, dependency.name)) {
-      errors.add("Dependency '" + dependency.name + "' is not used", dependency.loc.start);
+  var expression = dependencyExpression.expression;
+
+  dependencyExpression.dependencies.forEach(function(dependency, index) {
+    var dependencyLiteralName = expression.elements[expression.elements.length - 1].params[index].name
+      || dependency.name;
+    if (!findIdentifier(expression, dependencyLiteralName)) {
+      errors.add("Dependency '" + dependencyLiteralName + "' is not used", dependency.loc.start);
     }
   });
+
 }
 
 function findIdentifier(object, name) {
