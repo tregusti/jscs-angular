@@ -70,12 +70,36 @@ describe('angularVerifyDependencyUsage', function() {
       });
     });
 
-    context('with used dependencies', function() {
+    context('with used dependencies (Implicit Annotation)', function() {
       beforeEach(function() {
         errors = errorsForTemplate('' +
           'angular.module("a").service("S", function(alpha, beta) {' +
           '  alpha.hepp(beta);' +
           '})');
+      });
+      it('has no errors', function() {
+        expect(errors).to.be.empty;
+      });
+    });
+
+    context('with used dependencies (Inline Array Annotation)', function() {
+      beforeEach(function() {
+        errors = errorsForTemplate('' +
+          'angular.module("a").service("S", ["alpha", "beta", function(alpha, beta) {' +
+          '  alpha.hepp(beta);' +
+          '}])');
+      });
+      it('has no errors', function() {
+        expect(errors).to.be.empty;
+      });
+    });
+
+    context('with used dependencies (Renamed Inline Array Annotation)', function() {
+      beforeEach(function() {
+        errors = errorsForTemplate('' +
+          'angular.module("a").service("S", ["myAlpha", "myBeta", function(alpha, beta) {' +
+          '  alpha.hepp(beta);' +
+          '}])');
       });
       it('has no errors', function() {
         expect(errors).to.be.empty;
