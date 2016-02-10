@@ -32,12 +32,22 @@ function configure(option) {
 var enabled;
 
 function checkExpression(dependencyExpression, errors) {
+  var params;
+  var funcBody;
   var expression = dependencyExpression.expression;
 
+  if (expression.type === 'ArrayExpression') {
+    params = expression.elements[expression.elements.length - 1].params;
+    funcBody = expression.elements[expression.elements.length - 1].body;
+  } else if (expression.type === 'FunctionExpression') {
+    params = expression.params;
+    funcBody = expression.body;
+  }
+
   dependencyExpression.dependencies.forEach(function(dependency, index) {
-    var dependencyLiteralName = expression.elements[expression.elements.length - 1].params[index].name
-      || dependency.name;
-    if (!findIdentifier(expression, dependencyLiteralName)) {
+    var dependencyLiteralName = params && params[index].name || dependency.name;
+
+    if (!findIdentifier(funcBody, dependencyLiteralName)) {
       errors.add("Dependency '" + dependencyLiteralName + "' is not used", dependency.loc.start);
     }
   });
@@ -46,13 +56,6 @@ function checkExpression(dependencyExpression, errors) {
 
 function findIdentifier(object, name) {
   var found = false;
-
-  if (object.type === 'ArrayExpression') {
-    object = object.elements[object.elements.length - 1];
-  }
-  if (object.type === 'FunctionExpression') {
-    object = object.body;
-  }
 
   traverse(object);
   return found;
