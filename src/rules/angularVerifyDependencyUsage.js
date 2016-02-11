@@ -36,12 +36,14 @@ function checkExpression(dependencyExpression, errors) {
   var funcBody;
   var expression = dependencyExpression.expression;
 
-  if (expression.type === 'ArrayExpression') {
-    params = expression.elements[expression.elements.length - 1].params;
-    funcBody = expression.elements[expression.elements.length - 1].body;
-  } else if (expression.type === 'FunctionExpression') {
-    params = expression.params;
-    funcBody = expression.body;
+  if (expression !== undefined) {
+    if (expression.type === 'ArrayExpression') {
+      params = expression.elements[expression.elements.length - 1].params;
+      funcBody = expression.elements[expression.elements.length - 1].body;
+    } else if (expression.type === 'FunctionExpression') {
+      params = expression.params;
+      funcBody = expression.body;
+    }
   }
 
   dependencyExpression.dependencies.forEach(function(dependency, index) {
