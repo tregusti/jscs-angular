@@ -1,3 +1,8 @@
+# v1.2.2 (2016-02-20)
+
+- Fix: `angularVerifyDependencyUsage` uses the variable name and not the name of the dependency
+  specified in the array syntax. #24.
+
 # v1.2.1 (2015-07-30)
 
 - Support JSCS v1.8 plugin architecture. #20.
