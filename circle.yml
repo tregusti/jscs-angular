@@ -9,7 +9,7 @@ test:
   override:
     - node -v:
         parallel: true
-    - npm test:
+    - npm run ci:
         parallel: true
-    - npm install jscs@1 && npm test:
+    - npm install jscs@1 && npm run jscs:
         parallel: true

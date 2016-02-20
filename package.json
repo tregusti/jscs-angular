@@ -5,11 +5,13 @@
   "main": "src/index.js",
   "scripts": {
     "examples": "for DIR in examples/*/; do cd $DIR; jscs -c jscs.json .; cd ../..; done",
-    "jscs":     "./node_modules/.bin/jscs .",
-    "jshint":   "./node_modules/.bin/jshint --reporter ./tools/jshint-reporter.js --exclude examples .",
-    "lint":     "npm run jshint && npm run jscs",
-    "unittest": "./node_modules/.bin/mocha --reporter dot 'specs/**/*.spec.js'",
-    "test":     "npm run lint && npm run unittest"
+    "jscs": "./node_modules/.bin/jscs .",
+    "jshint": "./node_modules/.bin/jshint --reporter ./tools/jshint-reporter.js --exclude examples .",
+    "lint": "npm run jshint && npm run jscs",
+    "unit": "./node_modules/.bin/mocha --reporter dot 'specs/**/*.spec.js'",
+    "unit-junit": "MOCHA_FILE=$CIRCLE_TEST_REPORTS/unit.xml ./node_modules/.bin/mocha --reporter mocha-junit-reporter 'specs/**/*.spec.js'",
+    "ci": "npm run lint && npm run unit-junit",
+    "test": "npm run lint && npm run unit"
   },
   "keywords": [
     "angular",
@@ -52,6 +54,7 @@
     "jscs": "~2",
     "jshint": "^2.5.5",
     "mocha": "^2.0.1",
+    "mocha-junit-reporter": "^1.9.1",
     "sprintf-js": "~1.0.2"
   },
   "dependencies": {
