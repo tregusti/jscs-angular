@@ -1,6 +1,6 @@
 {
   "name": "jscs-angular",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "JSCS rules for AngularJS",
   "main": "src/index.js",
   "scripts": {
@@ -27,7 +27,15 @@
   "bugs": {
     "url": "https://github.com/tregusti/jscs-angular/issues"
   },
-  "author": "Glenn Jorde <glenn@tregusti.com>",
+  "author": {
+    "name": "Glenn Jorde",
+    "email": "glenn@tregusti.com",
+    "url": "http://github.com/tregusti"
+  },
+  "contributors": [{
+    "name": "Mihnea Simian",
+    "url": "https://github.com/mihneasim"
+  }],
   "licenses": [
     {
       "type": "MIT",
