@@ -1,3 +1,5 @@
+# v2.0.0 (2016-02-21)
+
 - Add: Support new [component syntax](components) that came with Angular 1.5.
 
 **Breaking changes**
