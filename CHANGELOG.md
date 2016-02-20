@@ -2,10 +2,12 @@
 
 **Breaking changes**
 
+- Change: Name of `angularRequireMatchingFilename` rule changed to `angularRequireNameCase` to
+  better match what the rule does.
 - Change: Directives and components both require camel cased names no matter the configuration for
-  `angularRequireMatchingFilename`. #23.
-- Remove: Boolean value on `angularRequireMatchingFilename` is no longer supported.
-- Add: String value on `angularRequireMatchingFilename` is now supported.
+  `angularRequireNameCase`. #23.
+- Remove: Boolean value on `angularRequireNameCase` is no longer supported.
+- Add: String value on `angularRequireNameCase` is now supported.
 
   [components]: https://docs.angularjs.org/guide/component
 
@@ -48,7 +50,7 @@
 
 # v0.1.0 (2014-09-15)
 
-- Fix: In `angularRequireMatchingFilename`. #12.
+- Fix: In `angularRequireNameCase`. #12.
 - Initial usable release, hence version bump.
 
 # v0.0.3 (2014-09-14)
@@ -56,14 +58,14 @@
 - Add: `angularAllowDirectiveRestrictions` rule.
 - Change: `angularRequireDependencyOrder` rule now handle resolve objects, for both
   [ui-router][ui-router] and [Angular routes][ng-route].
-- Change: `angularRequireMatchingFilename` is now more configurable.
+- Change: `angularRequireNameCase` is now more configurable.
 
   [ng-route]: https://docs.angularjs.org/tutorial/step_07
   [ui-router]: http://angular-ui.github.io/ui-router/
 
 # v0.0.2 (2014-09-06)
 
-- Add: `angularRequireMatchingFilename` rule.
+- Add: `angularRequireNameCase` rule.
 - Validate option values for rules.
 
 # v0.0.1 (2014-09-03)

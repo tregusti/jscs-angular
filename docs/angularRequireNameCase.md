@@ -1,4 +1,4 @@
-# `angularRequireMatchingFilename`
+# `angularRequireNameCase`
 
 If the value is a string with one of the casings below it requires that the filename without
 extension exactly matches the name defined in the file and both have the specified casing.
@@ -25,7 +25,7 @@ itself [requires this](https://docs.angularjs.org/guide/directive#creating-direc
 
 ```json
 {
-  "angularRequireMatchingFilename": {
+  "angularRequireNameCase": {
     "component": "pascal",
     "filename": "dash"
   }
@@ -47,7 +47,7 @@ like this:
 
 ```json
 {
-  "angularRequireMatchingFilename": [{
+  "angularRequireNameCase": [{
     "component": "camel",
     "filename": "camel"
   }, {
@@ -69,7 +69,7 @@ angular.module('app').controller('goodController', function() {
 
 ```json
 {
-  "angularRequireMatchingFilename": "camel"
+  "angularRequireNameCase": "camel"
 }
 ```
 With a file named `assets/badController.js`:

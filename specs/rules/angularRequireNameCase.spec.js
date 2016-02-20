@@ -5,18 +5,18 @@ var chai = require('chai');
 var expect = chai.expect;
 var format = require('util').format;
 
-describe('angularRequireMatchingFilename', function() {
+describe('angularRequireNameCase', function() {
   var checker;
 
   beforeEach(function() {
     checker = new Checker();
-    checker.registerRule(new (require('../../src/rules/angularRequireMatchingFilename.js'))());
+    checker.registerRule(new (require('../../src/rules/angularRequireNameCase.js'))());
   });
 
   context('set to camel', function() {
     beforeEach(function() {
       checker.configure({
-        angularRequireMatchingFilename: 'camel'
+        angularRequireNameCase: 'camel'
       });
     });
 
@@ -58,20 +58,20 @@ describe('angularRequireMatchingFilename', function() {
     context('strange string', function() {
       function fn() {
         checker.configure({
-          angularRequireMatchingFilename: 'tregusti'
+          angularRequireNameCase: 'tregusti'
         });
       }
       it('warns about it', function() {
         expect(fn).to.throw(/tregusti/);
       });
       it('shows link to documentation', function() {
-        expect(fn).to.throw(/github.*#angularrequirematchingfilename/i);
+        expect(fn).to.throw(/github.*#angularRequireNameCase/i);
       });
     });
     it('gives an error when no filename for single rule', function() {
       expect(function() {
         checker.configure({
-          angularRequireMatchingFilename: {
+          angularRequireNameCase: {
             component: 'pascal'
           }
         });
@@ -80,7 +80,7 @@ describe('angularRequireMatchingFilename', function() {
     it('gives an error when no component for single rule', function() {
       expect(function() {
         checker.configure({
-          angularRequireMatchingFilename: {
+          angularRequireNameCase: {
             filename: 'pascal'
           }
         });
@@ -89,7 +89,7 @@ describe('angularRequireMatchingFilename', function() {
     it('gives an error when no component for one of several rules', function() {
       expect(function() {
         checker.configure({
-          angularRequireMatchingFilename: [{
+          angularRequireNameCase: [{
             component: 'pascal',
             filename:  'camel'
           }, {
@@ -105,7 +105,7 @@ describe('angularRequireMatchingFilename', function() {
       it('does not throw for ' + casing, function() {
         expect(function() {
           checker.configure({
-            angularRequireMatchingFilename: {
+            angularRequireNameCase: {
               filename: casing,
               component: casing
             }
@@ -116,7 +116,7 @@ describe('angularRequireMatchingFilename', function() {
     it('throws for unknown casing: param', function() {
       expect(function() {
         checker.configure({
-          angularRequireMatchingFilename: {
+          angularRequireNameCase: {
             filename: 'param',
             component: 'param'
           }
@@ -128,7 +128,7 @@ describe('angularRequireMatchingFilename', function() {
   context('with ruling for camel cased file name and pascal cased component', function() {
     beforeEach(function() {
       checker.configure({
-        angularRequireMatchingFilename: {
+        angularRequireNameCase: {
           filename: 'camel',
           component: 'pascal'
         }
@@ -172,7 +172,7 @@ describe('angularRequireMatchingFilename', function() {
   describe('enforced camel casing', function() {
     beforeEach(function() {
       checker.configure({
-        angularRequireMatchingFilename: 'pascal'
+        angularRequireNameCase: 'pascal'
       });
     });
     it('allows exceptions from the rule for directives', function() {
@@ -188,7 +188,7 @@ describe('angularRequireMatchingFilename', function() {
   context('with ruling for dash cased file name and camel cased component', function() {
     beforeEach(function() {
       checker.configure({
-        angularRequireMatchingFilename: {
+        angularRequireNameCase: {
           filename: 'dash',
           component: 'camel'
         }
@@ -211,7 +211,7 @@ describe('angularRequireMatchingFilename', function() {
   context('with multiple rules', function() {
     beforeEach(function() {
       checker.configure({
-        angularRequireMatchingFilename: [{
+        angularRequireNameCase: [{
           component: 'pascal',
           filename:  'pascal'
         }, {
@@ -238,7 +238,7 @@ describe('angularRequireMatchingFilename', function() {
   describe('component validation', function() {
     beforeEach(function() {
       checker.configure({
-        angularRequireMatchingFilename: 'camel'
+        angularRequireNameCase: 'camel'
       });
     });
     context('with an error', function() {

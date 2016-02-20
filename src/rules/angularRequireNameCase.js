@@ -9,7 +9,7 @@ var type   = require('type-of');
 
 var docLink = require('../doc-linker');
 
-var name = 'angularRequireMatchingFilename';
+var name = 'angularRequireNameCase';
 
 // API functions
 
