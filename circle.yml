@@ -1,9 +1,9 @@
 dependencies:
   pre:
-    - if [ $CIRCLE_NODE_INDEX == "0" ]; then nvm install 0.10 && nvm alias default 0.10 ; fi
-    - if [ $CIRCLE_NODE_INDEX == "1" ]; then nvm install 0.12 && nvm alias default 0.12 ; fi
-    - if [ $CIRCLE_NODE_INDEX == "2" ]; then nvm install iojs-v1 && nvm alias default iojs-v1 ; fi
-    - if [ $CIRCLE_NODE_INDEX == "3" ]; then nvm install iojs-v2 && nvm alias default iojs-v2 ; fi
+    - if [ $CIRCLE_NODE_INDEX == "0" ]; then nvm install 0.12 && nvm alias default 0.12 ; fi
+    - if [ $CIRCLE_NODE_INDEX == "1" ]; then nvm install 4 && nvm alias default 4 ; fi
+    - if [ $CIRCLE_NODE_INDEX == "2" ]; then nvm install 5 && nvm alias default 5 ; fi
+    - if [ $CIRCLE_NODE_INDEX == "3" ]; then nvm install iojs-v3 && nvm alias default iojs-v3 ; fi
 
 test:
   override:
