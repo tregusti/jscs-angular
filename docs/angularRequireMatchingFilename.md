@@ -18,8 +18,8 @@ Available casings are:
 - `pascal`: `MyFileName.js`
 - `constant`: `MY_FILE_NAME.js`
 
-**NOTE**: Directive names are always required to be camel cased since Angular itself [requires
-this](https://docs.angularjs.org/guide/directive#creating-directives).
+**NOTE**: Directives, and therefore components, are always required to be camel cased since Angular
+itself [requires this](https://docs.angularjs.org/guide/directive#creating-directives).
 
 ## Valid object example
 

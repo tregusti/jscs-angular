@@ -1,3 +1,14 @@
+- Add: Support new [component syntax](components) that came with Angular 1.5.
+
+**Breaking changes**
+
+- Change: Directives and components both require camel cased names no matter the configuration for
+  `angularRequireMatchingFilename`. #23.
+- Remove: Boolean value on `angularRequireMatchingFilename` is no longer supported.
+- Add: String value on `angularRequireMatchingFilename` is now supported.
+
+  [components]: https://docs.angularjs.org/guide/component
+
 # v1.2.2 (2016-02-20)
 
 - Fix: `angularVerifyDependencyUsage` uses the variable name and not the name of the dependency
@@ -10,7 +21,7 @@
 
 # v1.2.0 (2015-07-29)
 
-- Added: `angularVerifyDependencyUsage` rule. #13.
+- Add: `angularVerifyDependencyUsage` rule. #13.
 - Fix: requireAngularDependencyOrder can handle unexpected code structure better. #21.
 
 # v1.1.0 (2015-07-25)
@@ -42,17 +53,17 @@
 
 # v0.0.3 (2014-09-14)
 
-- Added: `angularAllowDirectiveRestrictions` rule.
-- Changed: `angularRequireDependencyOrder` rule now handle resolve objects, for both
+- Add: `angularAllowDirectiveRestrictions` rule.
+- Change: `angularRequireDependencyOrder` rule now handle resolve objects, for both
   [ui-router][ui-router] and [Angular routes][ng-route].
-- Changed: `angularRequireMatchingFilename` is now more configurable.
+- Change: `angularRequireMatchingFilename` is now more configurable.
 
   [ng-route]: https://docs.angularjs.org/tutorial/step_07
   [ui-router]: http://angular-ui.github.io/ui-router/
 
 # v0.0.2 (2014-09-06)
 
-- Added: `angularRequireMatchingFilename` rule.
+- Add: `angularRequireMatchingFilename` rule.
 - Validate option values for rules.
 
 # v0.0.1 (2014-09-03)

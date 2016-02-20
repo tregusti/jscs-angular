@@ -367,6 +367,14 @@ describe('angularRequireDependencyOrder', function() {
     });
   });
 
+  it('handles components', function() {
+    checker.configure({
+      angularRequireDependencyOrder: 'first'
+    });
+    var template = 'angular.module("m").component("c", {});';
+    var errors = errorsForTemplate(template);
+    expect(errors).to.be.empty;
+  });
 
   function errorsForTemplate(template) {
     var source = vsprintf(template, [].slice.call(arguments, 1));

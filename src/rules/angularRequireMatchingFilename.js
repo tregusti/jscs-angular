@@ -47,7 +47,7 @@ function angularDefinitionName(node) {
   var expression = data.select('/expression');
   if (!expression.assert('/type=="CallExpression"')) { return false; }
 
-  var allowed = '"controller", "service", "factory", "directive", "provider"';
+  var allowed = '"controller", "service", "factory", "directive", "provider", "component"';
   var query = '/callee[/type=="MemberExpression"]/property[/type=="Identifier"][/name }<{ {%s}]';
   if (!expression.assert(format(query, allowed))) { return false; }
 
@@ -119,7 +119,10 @@ function validateNames(errors, componentType, componentName, baseName, fileName,
     }
 
     // Component name check, force camel for directives
-    var casing = componentType === 'directive' ? 'camel' : option.component;
+    var casing = option.component;
+    if ('directive' === componentType || 'component' === componentType) {
+      casing = 'camel';
+    }
     convert = casingMethodFor(casing);
     if (convert(baseName) !== componentName) {
       template = 'Component name \'%s\' is not matching the %s case rule';

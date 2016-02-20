@@ -169,14 +169,18 @@ describe('angularRequireMatchingFilename', function() {
     });
   });
 
-  describe('enforced camel casing for directives', function() {
+  describe('enforced camel casing', function() {
     beforeEach(function() {
       checker.configure({
         angularRequireMatchingFilename: 'pascal'
       });
     });
-    it('allows exceptions from the rule', function() {
+    it('allows exceptions from the rule for directives', function() {
       var errors = errorsFor('someName', 'SomeName.js', 'directive');
+      expect(errors).to.have.length(0);
+    });
+    it('allows exceptions from the rule for components', function() {
+      var errors = errorsFor('someName', 'SomeName.js', 'component');
       expect(errors).to.have.length(0);
     });
   });
@@ -231,9 +235,45 @@ describe('angularRequireMatchingFilename', function() {
     });
   });
 
+  describe('component validation', function() {
+    beforeEach(function() {
+      checker.configure({
+        angularRequireMatchingFilename: 'camel'
+      });
+    });
+    context('with an error', function() {
+      var errors;
+      beforeEach(function() {
+        errors = errorsFor('MyName', 'myName.js', 'component');
+      });
+      it('has one error', function() {
+        expect(errors).to.have.length(1);
+      });
+      it('explains the violation', function() {
+        expect(errors[0]).to.have.property('message').that.match(/MyName.*not.*camel/);
+      });
+      it('has the correct position', function() {
+        expect(errors[0]).to.have.property('line', 2);
+        expect(errors[0]).to.have.property('column', 12);
+      });
+    });
+    context('with matching names', function() {
+      var errors;
+      beforeEach(function() {
+        errors = errorsFor('myName', 'myName.js', 'component');
+      });
+      it('has no errors', function() {
+        expect(errors).to.have.length(0);
+      });
+    });
+  });
+
   function errorsFor(name, filename, componentType) {
     componentType = componentType || 'controller';
     var source = 'angular.module("mod")\n.%s("%s", function() {})';
+    if (componentType === 'component') {
+      source = 'angular.module("mod")\n.%s("%s", {})';
+    }
     source = format(source, componentType, name);
     return checker.checkString(source, filename).getErrorList();
   }
