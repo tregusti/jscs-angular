@@ -24,7 +24,7 @@ function check(file, errors) {
 
       var baseName = path.basename(fileName, '.js');
 
-      validateNames(errors, status.name, baseName, fileName, status.position);
+      validateNames(errors, status.type, status.name, baseName, fileName, status.position);
     }
   });
 }
@@ -54,27 +54,36 @@ function angularDefinitionName(node) {
   var nameset = expression.select('/arguments[/.size==2]/0[/type=="Literal"]');
   if (!nameset.length) { return false; }
 
+  var typeset =
+    expression.select('/callee[/type=="MemberExpression"]/property[/type=="Identifier"]/name');
+
   return {
     valid: true,
+    type: typeset.value(),
     name: nameset.value().value,
     position: nameset.value().loc.start
   };
 }
 
-function validateNames(errors, componentName, baseName, fileName, position) {
-  if (option === true) {
-    if (componentName !== baseName) {
-      var msg = 'Defined name \'%s\' is not matching the filename \'%s\'';
-      errors.add(format(msg, componentName, fileName), position);
+function validateNames(errors, componentType, componentName, baseName, fileName, position) {
+  var pair;
+  if (type(option) === 'string') {
+    option = {
+      component: option,
+      filename: option
+    };
+    pair = invalidNamePair(option, componentType, componentName, baseName, fileName);
+    if (pair) {
+      addErrors(errors, [pair]);
     }
   } else if (type(option) === 'object') {
-    var pair = invalidNamePair(option, componentName, baseName, fileName);
+    pair = invalidNamePair(option, componentType, componentName, baseName, fileName);
     if (pair) {
       addErrors(errors, [pair]);
     }
   } else if (type(option) === 'array') {
     var pairs = option.map(function(item) {
-      return invalidNamePair(item, componentName, baseName, fileName);
+      return invalidNamePair(item, componentType, componentName, baseName, fileName);
     });
 
     var oneValid = pairs.some(function(value) {
@@ -95,7 +104,7 @@ function validateNames(errors, componentName, baseName, fileName, position) {
     });
   }
 
-  function invalidNamePair(option, componentName, baseName, fileName) {
+  function invalidNamePair(option, componentType, componentName, baseName, fileName) {
     var out = [];
     var template, convert;
 
@@ -109,11 +118,12 @@ function validateNames(errors, componentName, baseName, fileName, position) {
       });
     }
 
-    // Component name check
-    convert = casingMethodFor(option.component);
+    // Component name check, force camel for directives
+    var casing = componentType === 'directive' ? 'camel' : option.component;
+    convert = casingMethodFor(casing);
     if (convert(baseName) !== componentName) {
       template = 'Component name \'%s\' is not matching the %s case rule';
-      // Move right 1 column to pint to name, not to string quotation.
+      // Move right 1 column to pin to name, not to string quotation.
       position.column++;
       out.push({
         message: format(template, componentName, option.component),
@@ -125,22 +135,22 @@ function validateNames(errors, componentName, baseName, fileName, position) {
   }
 }
 
-function casingMethodFor(value) {
-  var map = {
-    'dot':      'dot',
-    'dash':     'param', // diff
-    'camel':    'camel',
-    'snake':    'snake',
-    'pascal':   'pascal',
-    'constant': 'constant'
-  };
+var casings = {
+  'dot':      'dot',
+  'dash':     'param', // diff
+  'camel':    'camel',
+  'snake':    'snake',
+  'pascal':   'pascal',
+  'constant': 'constant'
+};
 
+function casingMethodFor(value) {
   assert(
-    Object.keys(map).indexOf(value) !== -1,
+    Object.keys(casings).indexOf(value) !== -1,
     'Case option ' + value + ' is not available. See documentation at ' + docLink(name)
   );
 
-  return casing[map[value]];
+  return casing[casings[value]];
 }
 
 function validateOptions(options) {
@@ -155,7 +165,7 @@ function validateOptions(options) {
   }
 
   assert(
-    options === true,
+    Object.keys(casings).indexOf(options) > -1,
     format(
       'Bad option value: %s. See documentation at %s',
       options,

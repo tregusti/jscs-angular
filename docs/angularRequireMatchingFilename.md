@@ -1,11 +1,13 @@
 # `angularRequireMatchingFilename`
 
-This rule ha two different modes. If the value `true` is supplied, it requires that the filename
-without extension exactly matches the name defined in the file. No matter the casing of he name.
+If the value is a string with one of the casings below it requires that the filename without
+extension exactly matches the name defined in the file and both have the specified casing.
 
 If the value is an object or an array of objects, the object define a rule that the names must follow.
 For instance, you can require that the file name should be dash cased like `my-thing.js`, and the
 corresponding component name should be pascal cased like `MyThing`.
+
+When using an array of rules, at least one of the rules must apply, otherwise it fails the style check.
 
 Available casings are:
 
@@ -16,7 +18,8 @@ Available casings are:
 - `pascal`: `MyFileName.js`
 - `constant`: `MY_FILE_NAME.js`
 
-When using an array of rules, at least one of the rules must apply, otherwise it fails the style check.
+**NOTE**: Directive names are always required to be camel cased since Angular itself [requires
+this](https://docs.angularjs.org/guide/directive#creating-directives).
 
 ## Valid object example
 
@@ -66,10 +69,10 @@ angular.module('app').controller('goodController', function() {
 
 ```json
 {
-  "angularRequireMatchingFilename": true
+  "angularRequireMatchingFilename": "camel"
 }
 ```
-With a file named `assets/bad-controller.js`:
+With a file named `assets/badController.js`:
 
 ```javascript
 angular.module('app').controller('BadController', function() {

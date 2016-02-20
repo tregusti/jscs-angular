@@ -2,8 +2,5 @@
   "additionalRules": [
     "../../src/rules/*.js"
   ],
-  "angularRequireMatchingFilename": {
-    "filename":  "pascal",
-    "component": "pascal"
-  }
+  "angularRequireMatchingFilename": "camel"
 }

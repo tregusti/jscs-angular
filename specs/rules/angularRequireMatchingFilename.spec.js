@@ -13,10 +13,10 @@ describe('angularRequireMatchingFilename', function() {
     checker.registerRule(new (require('../../src/rules/angularRequireMatchingFilename.js'))());
   });
 
-  context('with angularRequireMatchingFilename set to true', function() {
+  context('set to camel', function() {
     beforeEach(function() {
       checker.configure({
-        angularRequireMatchingFilename: true
+        angularRequireMatchingFilename: 'camel'
       });
     });
 
@@ -27,29 +27,29 @@ describe('angularRequireMatchingFilename', function() {
       });
       it('explains the violation', function() {
         var errors = errorsFor('MyName', 'myName.js');
-        expect(errors[0]).to.have.property('message').that.match(/MyName.*not matching.*myName\.js/);
+        expect(errors[0]).to.have.property('message').that.match(/MyName.*not.*camel/);
       });
       it('has the correct position', function() {
-        var errors = errorsFor('MiliamController', 'filename.js');
+        var errors = errorsFor('MiliamController', 'miliamController.js');
         expect(errors[0]).to.have.property('line', 2);
-        expect(errors[0]).to.have.property('column', 12);
+        expect(errors[0]).to.have.property('column', 13);
       });
     });
 
     context('with matching names', function() {
       it('has no errors', function() {
-        var errors = errorsFor('MyName', 'MyName.js');
+        var errors = errorsFor('myName', 'myName.js');
         expect(errors).to.be.empty;
       });
     });
 
     it('handles filenames with full path', function() {
-      var errors = errorsFor('Name', 'path/to/Name.js');
+      var errors = errorsFor('name', 'path/to/name.js');
       expect(errors).to.be.empty;
     });
 
     it('ignores code without a file name', function() {
-      var errors = errorsFor('Controller');
+      var errors = errorsFor('controller');
       expect(errors).to.be.empty;
     });
   });
@@ -169,6 +169,18 @@ describe('angularRequireMatchingFilename', function() {
     });
   });
 
+  describe('enforced camel casing for directives', function() {
+    beforeEach(function() {
+      checker.configure({
+        angularRequireMatchingFilename: 'pascal'
+      });
+    });
+    it('allows exceptions from the rule', function() {
+      var errors = errorsFor('someName', 'SomeName.js', 'directive');
+      expect(errors).to.have.length(0);
+    });
+  });
+
   context('with ruling for dash cased file name and camel cased component', function() {
     beforeEach(function() {
       checker.configure({
@@ -219,9 +231,10 @@ describe('angularRequireMatchingFilename', function() {
     });
   });
 
-  function errorsFor(name, filename) {
-    var source = 'angular.module("mod")\n.controller("%s", function() {})';
-    source = format(source, name);
+  function errorsFor(name, filename, componentType) {
+    componentType = componentType || 'controller';
+    var source = 'angular.module("mod")\n.%s("%s", function() {})';
+    source = format(source, componentType, name);
     return checker.checkString(source, filename).getErrorList();
   }
 });
