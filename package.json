@@ -34,10 +34,12 @@
     "email": "glenn@tregusti.com",
     "url": "http://github.com/tregusti"
   },
-  "contributors": [{
-    "name": "Mihnea Simian",
-    "url": "https://github.com/mihneasim"
-  }],
+  "contributors": [
+    {
+      "name": "Mihnea Simian",
+      "url": "https://github.com/mihneasim"
+    }
+  ],
   "licenses": [
     {
       "type": "MIT",
@@ -51,7 +53,7 @@
     "chai": "^3.2.0",
     "colors": "^1.0.3",
     "esprima": "^2.4.1",
-    "jscs": "~2",
+    "jscs": "~3.0.3",
     "jshint": "^2.5.5",
     "mocha": "^2.0.1",
     "mocha-junit-reporter": "^1.9.1",
