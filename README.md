@@ -19,6 +19,10 @@
 
 [AngularJS](https://angularjs.org/) plugin for [JSCS](https://github.com/jscs-dev/node-jscs).
 
+## Deprecation notice
+
+JSCS is to [merge into eslint](http://eslint.org/blog/2016/04/welcoming-jscs-to-eslint). Consider migrating to [eslint](https://github.com/eslint/eslint) and use its [angular plugin](https://github.com/Gillespie59/eslint-plugin-angular) instead.
+
 ## Plugin installation
 
 `jscs-angular` can be installed using `npm`:
