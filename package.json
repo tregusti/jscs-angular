@@ -34,10 +34,12 @@
     "email": "glenn@tregusti.com",
     "url": "http://github.com/tregusti"
   },
-  "contributors": [{
-    "name": "Mihnea Simian",
-    "url": "https://github.com/mihneasim"
-  }],
+  "contributors": [
+    {
+      "name": "Mihnea Simian",
+      "url": "https://github.com/mihneasim"
+    }
+  ],
   "licenses": [
     {
       "type": "MIT",
@@ -58,7 +60,7 @@
     "sprintf-js": "~1.0.2"
   },
   "dependencies": {
-    "change-case": "^2.1.5",
+    "change-case": "^3.0.0",
     "clone": "^1.0.2",
     "spahql": "^0.7.6",
     "type-of": "^2.0.1"
