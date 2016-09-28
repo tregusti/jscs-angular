@@ -61,7 +61,7 @@
   },
   "dependencies": {
     "change-case": "^3.0.0",
-    "clone": "^1.0.2",
+    "clone": "^2.0.0",
     "spahql": "^0.7.6",
     "type-of": "^2.0.1"
   }
