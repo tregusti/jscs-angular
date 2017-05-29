@@ -1,5 +1,7 @@
 # jscs-angular
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/tregusti/jscs-angular.svg)](https://greenkeeper.io/)
+
 [![Version][version-image]][version-link]
 [![Build Status][build-image]][build-link]
 [![Dependency Status][dep-image]][dep-link]
